@@ -1,0 +1,19 @@
+/* Additional WooCommerce mobile styles */
+@media (max-width: 600px) {
+  .woocommerce ul.products {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .woocommerce .product {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .woocommerce-cart, .woocommerce-checkout {
+    padding: 8px;
+  }
+  .woocommerce .button {
+    width: 100%;
+    font-size: 1.1em;
+  }
+}
