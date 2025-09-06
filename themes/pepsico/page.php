@@ -8,7 +8,6 @@ get_header(); ?>
 // Lấy dữ liệu group banner_slide
 $banner = get_field('banner_slide');
 ?>
-
 <?php if ($banner): ?>
     <div class="banner-slider">
         <button class="slide-btn prev-btn">&#10094;</button>
@@ -127,5 +126,82 @@ if ($stats):
 </div>
 <?php
 endif; ?>
+
+<?php
+$content2 = get_field('content2');
+if($content2 && !empty($content2['content2_img'])):
+    $img_url = $content2['content2_img']['url']; // Lấy url từ array
+?>
+<div class="acf-img-fog">
+    <img src="<?php echo esc_url($img_url); ?>" alt="" class="acf-img-main">
+    <div class="acf-fog-gradient"></div>
+</div>
+<div class="content2-group">
+    <?php if (!empty($content2['title2'])): ?>
+        <h2><?php echo esc_html($content2['title2']); ?></h2>
+    <?php endif; ?>
+
+    <?php if (!empty($content2['title_content2'])): ?>
+        <div class="content2-desc">
+            <?php echo wp_kses_post($content2['title_content2']); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php
+    $button2 = !empty($content2['button_info2']) ? $content2['button_info2'] : false;
+    if ($button2):
+        $text2 = !empty($button2['button_text2']) ? $button2['button_text2'] : '';
+        $link2 = !empty($button2['button_link2']) ? $button2['button_link2'] : '';
+        $icon2 = !empty($button2['button_icon2']) ? $button2['button_icon2']['url'] : '';
+    ?>
+        <a class="custom-btn" href="<?php echo esc_url($link2); ?>">
+            <span><?php echo esc_html($text2); ?></span>
+            <?php if ($icon2): ?>
+                <img src="<?php echo esc_url($icon2); ?>" alt="icon">
+            <?php endif; ?>
+        </a>
+    <?php endif; ?>
+</div>
+<?php endif; ?>
+
+<?php
+// Query lấy các post mới nhất
+$args = array(
+    'post_type'      => 'post',
+    'posts_per_page' => 3, // số lượng bài viết muốn hiển thị, sửa tùy ý
+    'orderby'        => 'date',
+    'order'          => 'ASC'
+);
+$posts_query = new WP_Query($args);
+
+if ($posts_query->have_posts()) : ?>
+    <div class="post-tabs-row">
+        <?php while ($posts_query->have_posts()) : $posts_query->the_post(); ?>
+            <?php $meta = get_field('post_box_meta'); ?>
+            <div class="post-tab-card">
+                <div class="post-tab-thumb">
+                    <?php if ( has_post_thumbnail() ) : ?>
+                        <?php the_post_thumbnail('large'); ?>
+                    <?php endif; ?>
+                </div>
+                <div class="post-tab-content">
+                    <h3 class="post-tab-title"><?php the_title(); ?></h3>
+                    <ul class="post-tab-supplement">
+                        <?php if (!empty($meta['sub_item_1'])): ?>
+                            <li><?= esc_html($meta['sub_item_1']) ?></li>
+                        <?php endif; ?>
+                        <?php if (!empty($meta['sub_item_2'])): ?>
+                            <li><?= esc_html($meta['sub_item_2']) ?></li>
+                        <?php endif; ?>
+                        <?php if (!empty($meta['sub_item_3'])): ?>
+                            <li><?= esc_html($meta['sub_item_3']) ?></li>
+                        <?php endif; ?>
+                    </ul>
+                    <a class="post-tab-more" href="<?php the_permalink(); ?>">XEM THÊM</a>
+                </div>
+            </div>
+        <?php endwhile; wp_reset_postdata(); ?>
+    </div>
+<?php endif; ?>
 
 <?php get_footer(); ?>
