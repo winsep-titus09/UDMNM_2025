@@ -2,206 +2,138 @@
 /**
  * Template Name: Custom Page with Slider
  */
-get_header(); ?>
+get_header();
 
-<?php 
-// Lấy dữ liệu group banner_slide
-$banner = get_field('banner_slide');
+// Icon SVG tái sử dụng
+$arrow_icon = "data:image/svg+xml;utf8,%3Csvg display='inline-block' color='inherit' width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cg clip-path='url(%23a)'%3E%3Cpath fill='url(%23b)' d='M10.673 16.328c2.514 0 4.571-1.966 4.571-4.367s-2.057-4.367-4.57-4.367c-1.65 0-3.099.86-3.894 2.122l4.302 2.2-4.302 2.29a4.618 4.618 0 0 0 3.893 2.122Z'/%3E%3Cpath fill='url(%23c)' d='M1.73 7.114c.082.056.164.123.257.168l1.473.748C4.898 5.64 7.6 4.02 10.673 4.02c4.571 0 8.312 3.574 8.312 7.941s-3.741 7.94-8.312 7.94c-3.051 0-5.716-1.597-7.166-3.953l-1.59.849s-.082.056-.128.09c1.59 2.612 4.395 4.466 7.68 4.835l10.545-5.662a9.286 9.286 0 0 0 .947-4.088c0-1.608-.41-3.127-1.134-4.467L9.48 2.2C6.16 2.57 3.32 4.456 1.74 7.114h-.01Z'/%3E%3Cpath fill='url(%23d)' d='M10.673 19.153c4.115 0 7.529-3.227 7.529-7.192 0-3.965-3.379-7.192-7.529-7.192-2.794 0-5.225 1.452-6.523 3.618l1.929.983c.935-1.508 2.619-2.513 4.594-2.513 2.958 0 5.354 2.278 5.354 5.115s-2.385 5.115-5.354 5.115c-1.964 0-3.647-1.005-4.582-2.502l-1.918 1.017c1.31 2.133 3.73 3.562 6.489 3.562l.011-.01Z'/%3E%3Cpath fill='url(%23e)' d='M21.744 11.96c0 1.24-.234 2.413-.643 3.519.935-.335 1.777-.96 2.256-1.754l.082-.122c1.192-2.01.41-4.088-1.403-4.993l-1.075-.547c.502 1.206.795 2.524.795 3.898h-.012Z'/%3E%3Cpath fill='url(%23f)' d='M1.169 17.333c-1.216 1.105-1.555 2.859-.655 4.255l.41.67c1.028 1.686 3.378 2.245 5.19 1.262l2.268-1.218c-3.063-.625-5.647-2.468-7.213-4.958v-.011Z'/%3E%3Cpath fill='url(%23g)' d='m.877 1.82-.374.67c-.83 1.374-.503 3.06.63 4.155 1.544-2.513 4.151-4.378 7.214-5.014L6.032.447C4.22-.503 1.905.123.877 1.82Z'/%3E%3C/g%3E%3Cdefs%3E%3ClinearGradient id='b' x1='14.882' x2='5.356' y1='9.024' y2='16.318' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23A1CC95'/%3E%3Cstop offset='1' stop-color='%2326AAE1'/%3E%3C/linearGradient%3E%3ClinearGradient id='c' x1='19.651' x2='-1.719' y1='4.903' y2='21.268' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23A1CC95'/%3E%3Cstop offset='1' stop-color='%2326AAE1'/%3E%3C/linearGradient%3E%3ClinearGradient id='d' x1='17.617' x2='1.87' y1='7.103' y2='19.158' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23A1CC95'/%3E%3Cstop offset='1' stop-color='%2326AAE1'/%3E%3C/linearGradient%3E%3ClinearGradient id='e' x1='23.93' x2='18.297' y1='9.839' y2='14.161' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23A1CC95'/%3E%3Cstop offset='1' stop-color='%2326AAE1'/%3E%3C/linearGradient%3E%3ClinearGradient id='f' x1='6.219' x2='-.059' y1='18.796' y2='23.615' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23A1CC95'/%3E%3Cstop offset='1' stop-color='%2326AAE1'/%3E%3C/linearGradient%3E%3ClinearGradient id='g' x1='7.517' x2='-1.874' y1='-.491' y2='6.685' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23A1CC95'/%3E%3Cstop offset='1' stop-color='%2326AAE1'/%3E%3C/linearGradient%3E%3CclipPath id='a'%3E%3Cpath fill='%23fff' d='M0 0h24v24H0z'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E"; // rút gọn: giữ nguyên chuỗi SVG dài của bạn
 ?>
-<?php if ($banner): ?>
-    <div class="banner-slider">
-        <button class="slide-btn prev-btn">&#10094;</button>
-        <div class="slides-wrapper">
-            <?php if (!empty($banner['image1'])): ?>
-                <div class="slide active">
-                    <img src="<?php echo esc_url($banner['image1']['url']); ?>" alt="<?php echo esc_attr($banner['image1']['alt']); ?>">
-                </div>
-            <?php endif; ?>
 
-            <?php if (!empty($banner['image2'])): ?>
-                <div class="slide">
-                    <img src="<?php echo esc_url($banner['image2']['url']); ?>" alt="<?php echo esc_attr($banner['image2']['alt']); ?>">
-                </div>
-            <?php endif; ?>
-        </div>
-        <button class="slide-btn next-btn">&#10095;</button>
+<?php if ($banner = get_field('banner_slide')): ?>
+  <div class="banner-slider">
+    <div class="slides-wrapper">
+      <?php foreach (['image1','image2'] as $i => $key): ?>
+        <?php if (!empty($banner[$key])): ?>
+          <div class="slide <?php echo $i === 0 ? 'active' : ''; ?>">
+            <img src="<?= esc_url($banner[$key]['url']) ?>" alt="<?= esc_attr($banner[$key]['alt']) ?>">
+          </div>
+        <?php endif; ?>
+      <?php endforeach; ?>
     </div>
+  </div>
 <?php endif; ?>
 
-<?php
-// Lấy dữ liệu group content1
-$content1 = get_field('content1');
-$button = get_field('button_info');
-
-if ($content1):
-?>
-    <div class="content1-group">
-        <?php if (!empty($content1['title'])): ?>
-            <h2><?php echo esc_html($content1['title']); ?></h2>
-        <?php endif; ?>
-
-        <?php if (!empty($content1['title_content1'])): ?>
-            <div class="content1-desc">
-                <?php echo wp_kses_post($content1['title_content1']); ?>
-            </div>
-        <?php endif; ?>
-        <?php
-        if ($button):
-            $text = !empty($button['button_text']) ? $button['button_text'] : '';
-            $link = !empty($button['button_link']) ? $button['button_link'] : '';
-            $icon = !empty($button['button_icon']) ? $button['button_icon']['url'] : '';
-        ?>
-            <a class="custom-btn" href="<?php echo esc_url($link); ?>">
-                <span><?php echo esc_html($text); ?></span>
-                <?php if ($icon): ?>
-                    <img src="<?php echo esc_url($icon); ?>" alt="icon">
-                <?php endif; ?>
-            </a>
-        <?php endif; ?>
-    </div>
-<?php
-endif;?>
-<?php
-$stats = get_field('stats_grid');
-if ($stats):
-?>
-<div class="stats7-grid">
-    <!-- Ô 1 -->
-    <div class="stats7-item stats7-item--icon box1">
-        <?php if (!empty($stats['box1_icon'])): ?>
-            <img class="stats7-icon" src="<?php echo esc_url($stats['box1_icon']['url']); ?>" alt="">
-        <?php endif; ?>
-        <div class="content">
-            <div class="stats7-number"><?php echo esc_html($stats['box1_number']); ?></div>
-            <div class="stats7-title"><?php echo esc_html($stats['box1_title']); ?></div>
-            <div class="stats7-desc"><?php echo esc_html($stats['box1_desc']); ?></div>
-        </div>
-    </div>
-    <!-- Ô 2 -->
-    <div class="stats7-item stats7-item--icon box2">
-        <?php if (!empty($stats['box2_icon'])): ?>
-            <img class="stats7-icon" src="<?php echo esc_url($stats['box2_icon']['url']); ?>" alt="">
-        <?php endif; ?>
-        <div class="content">
-            <div class="stats7-number"><?php echo esc_html($stats['box2_number']); ?></div>
-            <div class="stats7-title"><?php echo esc_html($stats['box2_title']); ?></div>
-            <div class="stats7-desc"><?php echo esc_html($stats['box2_desc']); ?></div>
-        </div>
-    </div>
-    <!-- Ô 3: chỉ có ảnh -->
-    <div class="stats7-item stats7-item--image box3">
-        <?php if (!empty($stats['box3_image'])): ?>
-            <img class="stats7-photo" src="<?php echo esc_url($stats['box3_image']['url']); ?>" alt="">
-        <?php endif; ?>
-    </div>
-    <!-- Ô 4: số + tiêu đề + mô tả -->
-    <div class="stats7-item stats7-item--number box4">
-        <div class="stats7-number"><?php echo esc_html($stats['box4_number']); ?></div>
-        <div class="stats7-title"><?php echo esc_html($stats['box4_title']); ?></div>
-        <div class="stats7-desc"><?php echo esc_html($stats['box4_desc']); ?></div>
-    </div>
-    <!-- Ô 5: icon + số + tiêu đề + mô tả -->
-    <div class="stats7-item stats7-item--iconnumber box5">
-        <?php if (!empty($stats['box5_icon'])): ?>
-            <img class="stats7-icon" src="<?php echo esc_url($stats['box5_icon']['url']); ?>" alt="">
-        <?php endif; ?>
-        <div class="content">
-            <div class="stats7-number"><?php echo esc_html($stats['box5_number']); ?></div>
-            <div class="stats7-title"><?php echo esc_html($stats['box5_title']); ?></div>
-            <div class="stats7-desc"><?php echo esc_html($stats['box5_desc']); ?></div>
-        </div>
-    </div>
-    <!-- Ô 6: chỉ có ảnh -->
-    <div class="stats7-item stats7-item--image box6">
-        <?php if (!empty($stats['box6_image'])): ?>
-            <img class="stats7-photo" src="<?php echo esc_url($stats['box6_image']['url']); ?>" alt="">
-        <?php endif; ?>
-    </div>
-    <!-- Ô 7: số + tiêu đề + mô tả, chiếm 2 ô hàng dưới cùng -->
-    <div class="stats7-item stats7-item--large box7">
-        <div class="stats7-number"><?php echo esc_html($stats['box7_number']); ?></div>
-        <div class="stats7-title"><?php echo esc_html($stats['box7_title']); ?></div>
-        <div class="stats7-desc"><?php echo esc_html($stats['box7_desc']); ?></div>
-    </div>
-</div>
-<?php
-endif; ?>
-
-<?php
-$content2 = get_field('content2');
-if($content2 && !empty($content2['content2_img'])):
-    $img_url = $content2['content2_img']['url']; // Lấy url từ array
-?>
-<div class="acf-img-fog">
-    <img src="<?php echo esc_url($img_url); ?>" alt="" class="acf-img-main">
-    <div class="acf-fog-gradient"></div>
-</div>
-<div class="content2-group">
-    <?php if (!empty($content2['title2'])): ?>
-        <h2><?php echo esc_html($content2['title2']); ?></h2>
+<?php if ($content1 = get_field('content1')): ?>
+  <div class="content1-group">
+    <?php if (!empty($content1['title'])): ?><h2><?= esc_html($content1['title']) ?></h2><?php endif; ?>
+    <?php if (!empty($content1['title_content1'])): ?>
+      <div class="content1-desc"><?= wp_kses_post($content1['title_content1']); ?></div>
     <?php endif; ?>
 
+    <?php if ($button = get_field('button_info')): ?>
+      <a class="custom-btn" href="<?= esc_url($button['button_link'] ?? '') ?>">
+        <span><?= esc_html($button['button_text'] ?? '') ?></span>
+        <img src="<?= $arrow_icon ?>" alt="icon" class="btn-icon" />
+      </a>
+    <?php endif; ?>
+  </div>
+<?php endif; ?>
+
+<?php if ($stats = get_field('stats_grid')): ?>
+  <div class="stats7-grid">
+    <?php for ($i=1;$i<=7;$i++): ?>
+      <?php if ($i === 3 || $i === 6): // ô chỉ có ảnh ?>
+        <?php if (!empty($stats["box{$i}_image"])): ?>
+          <div class="stats7-item stats7-item--image box<?= $i ?>">
+            <img class="stats7-photo" src="<?= esc_url($stats["box{$i}_image"]['url']) ?>" alt="">
+          </div>
+        <?php endif; ?>
+      <?php elseif ($i === 4 || $i === 7): // số + tiêu đề + mô tả ?>
+        <div class="stats7-item <?= $i===7 ? 'stats7-item--large' : 'stats7-item--number' ?> box<?= $i ?>">
+          <div class="stats7-number"><?= esc_html($stats["box{$i}_number"]) ?></div>
+          <div class="stats7-title"><?= esc_html($stats["box{$i}_title"]) ?></div>
+          <div class="stats7-desc"><?= esc_html($stats["box{$i}_desc"]) ?></div>
+        </div>
+      <?php else: // có icon + nội dung ?>
+        <div class="stats7-item <?= $i===5 ? 'stats7-item--iconnumber' : 'stats7-item--icon' ?> box<?= $i ?>">
+          <?php if (!empty($stats["box{$i}_icon"])): ?>
+            <img class="stats7-icon" src="<?= esc_url($stats["box{$i}_icon"]['url']) ?>" alt="">
+          <?php endif; ?>
+          <div class="content">
+            <div class="stats7-number"><?= esc_html($stats["box{$i}_number"]) ?></div>
+            <div class="stats7-title"><?= esc_html($stats["box{$i}_title"]) ?></div>
+            <div class="stats7-desc"><?= esc_html($stats["box{$i}_desc"]) ?></div>
+          </div>
+        </div>
+      <?php endif; ?>
+    <?php endfor; ?>
+  </div>
+<?php endif; ?>
+
+<?php if ($content2 = get_field('content2')): ?>
+  <?php if (!empty($content2['content2_img'])): ?>
+    <div class="acf-img-fog">
+      <img src="<?= esc_url($content2['content2_img']['url']) ?>" alt="" class="acf-img-main">
+      <div class="acf-fog-gradient"></div>
+    </div>
+  <?php endif; ?>
+
+  <div class="content2-group">
+    <?php if (!empty($content2['title2'])): ?><h2><?= esc_html($content2['title2']) ?></h2><?php endif; ?>
     <?php if (!empty($content2['title_content2'])): ?>
-        <div class="content2-desc">
-            <?php echo wp_kses_post($content2['title_content2']); ?>
-        </div>
+      <div class="content2-desc"><?= wp_kses_post($content2['title_content2']) ?></div>
     <?php endif; ?>
 
-    <?php
-    $button2 = !empty($content2['button_info2']) ? $content2['button_info2'] : false;
-    if ($button2):
-        $text2 = !empty($button2['button_text2']) ? $button2['button_text2'] : '';
-        $link2 = !empty($button2['button_link2']) ? $button2['button_link2'] : '';
-        $icon2 = !empty($button2['button_icon2']) ? $button2['button_icon2']['url'] : '';
-    ?>
-        <a class="custom-btn" href="<?php echo esc_url($link2); ?>">
-            <span><?php echo esc_html($text2); ?></span>
-            <?php if ($icon2): ?>
-                <img src="<?php echo esc_url($icon2); ?>" alt="icon">
-            <?php endif; ?>
-        </a>
+    <?php if (!empty($content2['button_info2'])): ?>
+      <a class="custom-btn" href="<?= esc_url($content2['button_info2']['button_link2'] ?? '') ?>">
+        <span><?= esc_html($content2['button_info2']['button_text2'] ?? '') ?></span>
+        <img src="<?= $arrow_icon ?>" alt="icon" class="btn-icon" />
+      </a>
     <?php endif; ?>
-</div>
+  </div>
 <?php endif; ?>
 
-<?php
-// Query lấy các post mới nhất
-$args = array(
-    'post_type'      => 'post',
-    'posts_per_page' => 3, // số lượng bài viết muốn hiển thị, sửa tùy ý
-    'orderby'        => 'date',
-    'order'          => 'ASC'
-);
-$posts_query = new WP_Query($args);
-
-if ($posts_query->have_posts()) : ?>
+<?php if (is_front_page() || is_home()): ?>
+  <?php
+  $posts_query = new WP_Query([
+    'post_type' => 'post',
+    'posts_per_page' => 3,
+    'orderby' => 'date',
+    'order' => 'ASC'
+  ]);
+  if ($posts_query->have_posts()): ?>
     <div class="post-tabs-row">
-        <?php while ($posts_query->have_posts()) : $posts_query->the_post(); ?>
-            <?php $meta = get_field('post_box_meta'); ?>
-            <div class="post-tab-card">
-                <div class="post-tab-thumb">
-                    <?php if ( has_post_thumbnail() ) : ?>
-                        <?php the_post_thumbnail('large'); ?>
-                    <?php endif; ?>
-                </div>
-                <div class="post-tab-content">
-                    <h3 class="post-tab-title"><?php the_title(); ?></h3>
-                    <ul class="post-tab-supplement">
-                        <?php if (!empty($meta['sub_item_1'])): ?>
-                            <li><?= esc_html($meta['sub_item_1']) ?></li>
-                        <?php endif; ?>
-                        <?php if (!empty($meta['sub_item_2'])): ?>
-                            <li><?= esc_html($meta['sub_item_2']) ?></li>
-                        <?php endif; ?>
-                        <?php if (!empty($meta['sub_item_3'])): ?>
-                            <li><?= esc_html($meta['sub_item_3']) ?></li>
-                        <?php endif; ?>
-                    </ul>
-                    <a class="post-tab-more" href="<?php the_permalink(); ?>">XEM THÊM</a>
-                </div>
-            </div>
-        <?php endwhile; wp_reset_postdata(); ?>
+      <?php while ($posts_query->have_posts()): $posts_query->the_post(); $meta = get_field('post_box_meta'); ?>
+        <div class="post-tab-card">
+          <div class="post-tab-thumb"><?php if (has_post_thumbnail()) the_post_thumbnail('large'); ?></div>
+          <div class="post-tab-content">
+            <h3 class="post-tab-title"><?php the_title(); ?></h3>
+            <ul class="post-tab-supplement">
+              <?php foreach ([1,2,3] as $j): if (!empty($meta["sub_item_$j"])): ?>
+                <li><?= esc_html($meta["sub_item_$j"]) ?></li>
+              <?php endif; endforeach; ?>
+            </ul>
+            <a class="post-tab-more" href="<?php the_permalink(); ?>">XEM THÊM</a>
+          </div>
+        </div>
+      <?php endwhile; wp_reset_postdata(); ?>
     </div>
+  <?php endif; ?>
+
+  <div class="drink-section-title">
+    <img class="title-icon" src="<?= $arrow_icon ?>" alt="icon">
+    <h2>SẢN PHẨM CỦA CHÚNG TÔI</h2>
+  </div>
+  <?php
+  $query = new WP_Query(['post_type'=>'pepsico','posts_per_page'=>-1,'orderby'=>'date','order'=>'ASC']);
+  if ($query->have_posts()): ?>
+    <div class="drink-list" id="drinkCarousel">
+      <?php while ($query->have_posts()): $query->the_post(); ?>
+        <div class="drink-item">
+          <a href="<?php the_permalink(); ?>"><?php if (has_post_thumbnail()) the_post_thumbnail('medium'); ?></a>
+        </div>
+      <?php endwhile; wp_reset_postdata(); ?>
+    </div>
+  <?php endif; ?>
 <?php endif; ?>
 
 <?php get_footer(); ?>

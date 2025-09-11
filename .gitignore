@@ -1,12 +1,20 @@
 # Ignore uploads (media files)
-wp-content/uploads/
+uploads/
+upgrade/
 
 # Ignore cache, backup
-wp-content/cache/
-wp-content/backups/
-wp-content/upgrade/
+cache/
+backups/
 
 # Ignore common system files
 *.log
 .DS_Store
 Thumbs.db
+
+# Ignore dependency directories (for example, if using npm or
+plugins)
+node_modules/
+dist/
+build/
+
+themes/twenty*/

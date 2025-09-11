@@ -60,8 +60,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
 document.addEventListener("DOMContentLoaded", function() {
     const slides = document.querySelectorAll(".banner-slider .slide");
-    const prevBtn = document.querySelector(".banner-slider .prev-btn");
-    const nextBtn = document.querySelector(".banner-slider .next-btn");
     let current = 0;
 
     function showSlide(index) {
@@ -83,3 +81,76 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Không tự động chuyển slide nữa
 });
+
+document.addEventListener('click', function(e){
+  const li = e.target.closest('.timeline-year'); if(!li) return;
+  const idx = li.dataset.index;
+  document.querySelectorAll('.timeline-year').forEach(el=>el.classList.remove('active'));
+  li.classList.add('active');
+  document.querySelectorAll('.timeline-detail').forEach(el=>{
+    el.classList.toggle('active', el.dataset.index === idx);
+  });
+});
+
+////////
+(function(){
+  const root = document.getElementById('achievementsTabs');
+  if (!root) return;
+
+  const tabs = root.querySelectorAll('.achv-tab');
+  const heroPanes = root.querySelectorAll('.achv-hero-pane');
+  const tracks = root.querySelectorAll('.achv-track');
+  const prevBtn = root.querySelector('.achv-nav.prev');
+  const nextBtn = root.querySelector('.achv-nav.next');
+
+  function showTab(key){
+    tabs.forEach(btn => {
+      const on = btn.dataset.tab === key;
+      btn.classList.toggle('is-active', on);
+      btn.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    heroPanes.forEach(p => p.classList.toggle('is-hidden', p.dataset.pane !== key));
+    tracks.forEach(t => t.classList.toggle('is-hidden', t.dataset.pane !== key));
+  }
+
+  // init: luôn hiện tab1 để thấy nội dung dù JS/CSS lỗi
+  showTab('t1');
+
+  // switch tabs
+  tabs.forEach(btn => btn.addEventListener('click', () => showTab(btn.dataset.tab)));
+
+  // helpers
+  function activeTrack(){ return root.querySelector('.achv-track:not(.is-hidden)'); }
+  function cardStep(track){
+    const card = track && track.querySelector('.achv-card');
+    return card ? card.offsetWidth + 24 : 300;
+  }
+
+  // nav
+  if (prevBtn) prevBtn.addEventListener('click', () => {
+    const tr = activeTrack(); if (!tr) return;
+    tr.scrollBy({ left: -cardStep(tr), behavior: 'smooth' });
+  });
+  if (nextBtn) nextBtn.addEventListener('click', () => {
+    const tr = activeTrack(); if (!tr) return;
+    tr.scrollBy({ left: cardStep(tr), behavior: 'smooth' });
+  });
+
+  // drag-to-scroll
+  tracks.forEach(tr => {
+    let down=false, startX=0, startScroll=0;
+    tr.addEventListener('pointerdown', e => {
+      down=true; startX=e.clientX; startScroll=tr.scrollLeft;
+      tr.setPointerCapture(e.pointerId);
+      tr.style.scrollBehavior='auto';
+    });
+    tr.addEventListener('pointermove', e => {
+      if(!down) return;
+      tr.scrollLeft = startScroll - (e.clientX - startX);
+    });
+    function endDrag(){ down=false; tr.style.scrollBehavior=''; }
+    tr.addEventListener('pointerup', endDrag);
+    tr.addEventListener('pointercancel', endDrag);
+    tr.addEventListener('mouseleave', ()=>{ if(down) endDrag(); });
+  });
+})();

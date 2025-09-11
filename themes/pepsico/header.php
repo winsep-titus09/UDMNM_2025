@@ -7,7 +7,7 @@
     <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
-    <header class="container-fluid bg-white w-auto">
+    <header class="container-fluid bg-white">
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
                 <!-- Logo -->
