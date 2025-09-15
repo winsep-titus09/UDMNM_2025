@@ -10,8 +10,6 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 });
 
-
-
 document.querySelectorAll('.menu-item-has-children').forEach(function(item) {
     let timeout;
 
@@ -152,5 +150,171 @@ document.addEventListener('click', function(e){
     tr.addEventListener('pointerup', endDrag);
     tr.addEventListener('pointercancel', endDrag);
     tr.addEventListener('mouseleave', ()=>{ if(down) endDrag(); });
+  });
+})();
+
+(function(){
+  document.querySelectorAll('.home-drink-carousel').forEach(function(wrap){
+    const track = wrap.querySelector('.home-drink-track');
+    if(!track) return;
+
+    const SPEED = 0.6;
+    const gap = () => parseFloat(getComputedStyle(track).gap || 0);
+    let GAP = gap();
+
+    function fillTrack(){
+      const need = wrap.offsetWidth * 2;
+      while(track.scrollWidth < need){
+        const kids = Array.from(track.children);
+        for(const el of kids) track.appendChild(el.cloneNode(true));
+      }
+    }
+    fillTrack();
+
+    let offset = 0, rafId = null;
+    function tick(){
+      offset -= SPEED;
+      track.style.transform = `translateX(${offset}px)`;
+      const first = track.children[0];
+      const w = first.getBoundingClientRect().width + GAP;
+      if(-offset >= w){
+        track.appendChild(first);
+        offset += w;
+        track.style.transform = `translateX(${offset}px)`;
+      }
+      rafId = requestAnimationFrame(tick);
+    }
+    const start = ()=>{ if(!rafId) rafId = requestAnimationFrame(tick); };
+    const stop  = ()=>{ if(rafId){ cancelAnimationFrame(rafId); rafId = null; } };
+
+    wrap.addEventListener('mouseenter', stop);
+    wrap.addEventListener('mouseleave', start);
+    window.addEventListener('resize', ()=>{ GAP = gap(); offset = 0; track.style.transform='translateX(0)'; fillTrack(); });
+
+    start();
+  });
+})();
+
+(function(){
+  function getGapPx(scroller){
+    const cs = getComputedStyle(scroller);
+    const g = parseFloat(cs.gap || cs.columnGap || '0');
+    return isNaN(g) ? 0 : g;
+  }
+
+  function initSection(section){
+    const scroller = section.querySelector('.sustain-scroller');
+    if(!scroller) return;
+
+    const originals = Array.from(scroller.children).filter(el => el.classList.contains('s-card'));
+    const n = originals.length;
+    if (n === 0) return;
+
+    const clonesBefore = originals.map(el => el.cloneNode(true));
+    const clonesAfter  = originals.map(el => el.cloneNode(true));
+    clonesBefore.forEach(cl => scroller.insertBefore(cl, scroller.firstChild));
+    clonesAfter.forEach(cl => scroller.appendChild(cl));
+
+    const firstCard = scroller.querySelector('.s-card');
+    let gap = getGapPx(scroller);
+
+    const cardWidth = () => firstCard.getBoundingClientRect().width;
+    const seqW      = () => (cardWidth() + gap) * n;
+
+    function center(){ scroller.scrollLeft = seqW(); }
+    requestAnimationFrame(center);
+
+    function normalizeWhileDragging(state){
+      const w = seqW(); if (w <= 0) return;
+      while (scroller.scrollLeft < w){
+        scroller.scrollLeft += w;
+        if (state) state.startLeft += w;
+      }
+      while (scroller.scrollLeft >= 2*w){
+        scroller.scrollLeft -= w;
+        if (state) state.startLeft -= w;
+      }
+    }
+    function normalize(){ normalizeWhileDragging(null); }
+
+    if ('ResizeObserver' in window){
+      const ro = new ResizeObserver(()=>{
+        gap = getGapPx(scroller);
+        const w = seqW(); if (w <= 0) return;
+        const mod = scroller.scrollLeft % w;
+        scroller.scrollLeft = w + mod;
+      });
+      ro.observe(scroller);
+      if (firstCard) ro.observe(firstCard);
+    } else {
+      window.addEventListener('resize', ()=>{
+        gap = getGapPx(scroller);
+        const w = seqW(); if (w <= 0) return;
+        const mod = scroller.scrollLeft % w;
+        scroller.scrollLeft = w + mod;
+      });
+    }
+
+    const drag = { down:false, startX:0, startLeft:0, pid:null };
+
+    // Autoplay (đọc từ data-autoplay, ms)
+    const autoplayMs = parseInt(section.dataset.autoplay || '0', 10) || 0;
+    let timer=null;
+    function startAuto(){
+      if(!autoplayMs) return;
+      stopAuto();
+      timer = setInterval(()=>{
+        scroller.scrollLeft += (cardWidth() + gap);
+        const w = seqW();
+        if (scroller.scrollLeft >= 2*w){
+          scroller.scrollLeft -= w; // tức thời, không giật
+        }
+      }, autoplayMs);
+    }
+    function stopAuto(){
+      if(timer){ clearInterval(timer); timer=null; }
+    }
+
+    scroller.addEventListener('pointerdown', e=>{
+      drag.down = true; drag.pid = e.pointerId;
+      drag.startX = e.clientX; drag.startLeft = scroller.scrollLeft;
+      scroller.classList.add('dragging');
+      scroller.setPointerCapture(drag.pid);
+      stopAuto(); // ⟵ dừng autoplay khi bắt đầu kéo
+    });
+    scroller.addEventListener('pointermove', e=>{
+      if(!drag.down) return;
+      const dx = e.clientX - drag.startX;
+      scroller.scrollLeft = drag.startLeft - dx;
+      normalizeWhileDragging(drag);
+    });
+    function endDrag(){
+      if(!drag.down) return;
+      drag.down=false; scroller.classList.remove('dragging');
+      try { if(drag.pid!=null) scroller.releasePointerCapture(drag.pid); } catch(e){}
+      drag.pid=null;
+      normalize();
+      startAuto(); // ⟵ chạy lại sau khi thả
+    }
+    scroller.addEventListener('pointerup', endDrag);
+    scroller.addEventListener('pointercancel', endDrag);
+    scroller.addEventListener('pointerleave', endDrag);
+
+    let rafId = 0;
+    scroller.addEventListener('scroll', ()=>{
+      if (drag.down) return;
+      if (!rafId){
+        rafId = requestAnimationFrame(()=>{ rafId = 0; normalize(); });
+      }
+    }, { passive:true });
+
+    section.addEventListener('mouseenter', stopAuto);
+    section.addEventListener('mouseleave', startAuto);
+
+    startAuto();
+  }
+
+  document.addEventListener('DOMContentLoaded', ()=>{
+    document.querySelectorAll('.sustain').forEach(initSection);
   });
 })();

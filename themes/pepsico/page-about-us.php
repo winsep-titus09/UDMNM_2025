@@ -151,7 +151,12 @@ if ($bg_image = get_field('about_us_banner_bg')): ?>
                 <div class="achv-card">
                   <?php if($it['img']): ?><div class="achv-card-logo"><img src="<?php echo esc_url($it['img']); ?>" alt=""></div><?php endif; ?>
                   <?php if($it['title']): ?><div class="achv-card-title"><?php echo esc_html($it['title']); ?></div><?php endif; ?>
-                  <?php if($it['note']): ?><div class="achv-card-note"><?php echo esc_html($it['note']); ?></div><?php endif; ?>
+                  <?php if($it['note']): ?>
+                    <div class="achv-card-note">
+                      <?php echo nl2br( esc_html( strip_tags( $it['note'] ) ) ); ?>
+                    </div>
+                  <?php endif; ?>
+
                 </div>
               <?php endforeach; ?>
             </div>
@@ -160,7 +165,11 @@ if ($bg_image = get_field('about_us_banner_bg')): ?>
                 <div class="achv-card">
                   <?php if($it['img']): ?><div class="achv-card-logo"><img src="<?php echo esc_url($it['img']); ?>" alt=""></div><?php endif; ?>
                   <?php if($it['title']): ?><div class="achv-card-title"><?php echo esc_html($it['title']); ?></div><?php endif; ?>
-                  <?php if($it['note']): ?><div class="achv-card-note"><?php echo esc_html($it['note']); ?></div><?php endif; ?>
+                  <?php if($it['note']): ?>
+                    <div class="achv-card-note">
+                      <?php echo nl2br( esc_html( strip_tags( $it['note'] ) ) ); ?>
+                    </div>
+                  <?php endif; ?>
                 </div>
               <?php endforeach; ?>
             </div>
