@@ -272,125 +272,202 @@ a {
   }
 }
 
+/* --- FIX 1: bỏ chiều cao cố định để menu có thể bung --- */
+header.container.py-3,
+header.container-fluid.bg-white,
+header.container-fluid.bg-white.w-auto{
+  height: auto !important;      /* thay vì 50px/71px */
+}
+
+/* Giữ header trên cùng, nhưng thống nhất position */
+header.container.py-3,
+header.container-fluid.bg-white{
+  position: fixed;               /* hoặc sticky nếu bạn muốn */
+  top: 0; left: 0; right: 0;
+  z-index: 9999;
+}
+
+/* Khoảng đệm nội dung để không bị header che (tuỳ chỉnh min-height header) */
+body { padding-top: 72px; }      /* điều chỉnh đúng chiều cao thực tế header của bạn */
+
+/* --- FIX 2: đảm bảo collapse của Bootstrap hoạt động --- */
+.navbar-collapse.collapse { display: none; }
+.navbar-collapse.collapse.show { display: block; }
+
+/* Trên mobile, để khối menu chiếm full width bên dưới thanh header */
+@media (max-width: 991px){
+  header .navbar-collapse{
+    position: fixed;
+    top: 71px;                   /* đúng chiều cao thanh top của bạn */
+    left: 0; right: 0;
+    max-height: calc(100dvh - 71px);
+    overflow:auto;
+    background: #fff;
+  }
+}
+
+@media (max-width: 991px) {
+  .menu-item-has-children .sub-menu,
+  .menu-item-has-children:focus-within .sub-menu {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    /* Nhưng không nên dùng hover trên mobile */
+  }
+
+  #mainMenu > ul.navbar-nav {
+    float: left;
+    align-items: start !important;
+    justify-content: start !important;
+    margin: 10px 10px !important;
+  }
+}
+
 /* end header */
 
 /* footer */
-
-.site-footer {
-  background: #1456a3
-    url("https://yourdomain.com/wp-content/uploads/bg-wave.png") no-repeat left
-    bottom;
-  color: #fff;
-  padding: 40px 0 0;
-  font-size: 15px;
+/* ========== FOOTER (clean) ========== */
+.site-footer{
+  --bg:#124B96; --text:#fff; --muted:#CFE0FF; --line:rgba(255,255,255,.25);
+  --container:1400px; --gutter:30px;
+  font-family:"Montserrat",Arial,sans-serif;
+  background:var(--bg); color:var(--text);
+  position:relative; overflow:hidden;
 }
 
-.footer-logo {
-  text-align: center;
-  margin-bottom: 30px;
-}
-.footer-logo img {
-  height: 80px;
-  max-width: 100%;
-}
-
-.footer-menus {
-  display: flex;
-  justify-content: center;
-  gap: 48px;
-  max-width: 1200px;
-  margin: 0 auto 40px;
+/* containers */
+.site-footer .footer-top,
+.site-footer .footer-bottom{
+  max-width:var(--container);
+  margin-inline:auto;
+  padding-inline:var(--gutter);
 }
 
-.footer-menu-column {
-  flex: 1 1 0;
+/* ===== Top ===== */
+.footer-top{ padding-block:56px 24px; }
+.footer-brand{ display:flex; justify-content:center; margin-bottom:24px; }
+.footer-logo img{ height:82px; width:auto; display:block; }
+
+/* grid */
+.footer-widgets{ display:grid; gap:32px; }
+.footer-widgets.grid-cols-5{ grid-template-columns:1fr 1fr 1.7fr 1fr 1fr; }
+.footer-col{ min-width:0; }
+
+/* titles & links */
+.footer-title{ margin:0 0 12px; font:500 18px/1.25 "Montserrat",Arial,sans-serif; }
+.footer-widget :is(ul,.menu,.wp-block-navigation__container){ list-style:none; margin:0; padding:0; }
+.footer-widget li{ margin-top:10px; }
+.footer-widget a,
+.footer-widget .wp-block-navigation-item__content{
+  color:var(--muted); text-decoration:none; transition:color .2s, opacity .2s;
 }
-.footer-menu-column h4 {
-  font-size: 16px;
-  margin-bottom: 20px;
-  font-weight: 500;
-  -webkit-text-stroke: 0.2px #fff;
-}
-.footer-menu-column ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.footer-menu-column li {
-  margin-bottom: 12px;
-}
-.footer-menu-column a {
-  color: #fff;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-.footer-menu-column a:hover {
-  color: #ffd700;
+.footer-widget a:hover,
+.footer-widget .wp-block-navigation-item__content:hover{ color:#fff; opacity:1; }
+
+/* ===== Bottom ===== */
+.footer-bottom{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  border-top:1px solid var(--line); padding-block:10px; margin-top:24px;
 }
 
-/* Footer bottom */
-.footer-bottom {
-  max-width: 1200px;
-  margin: 40px auto 0;
-  padding: 22px 24px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.3);
-  font-size: 14px;
+h5.footer-bottom-title {
+  font-weight: 400;
+  font-size: 1rem;
 }
-.footer-bottom-left {
-  color: #fff;
+.footer-copy{ font-size:10px; opacity:.85; }
+
+/* bottom center (menu có vạch hai bên) */
+.footer-bottom__center{ display:flex; justify-content:center; align-items:center; }
+.footer-bottom__center :is(.menu,.wp-block-navigation__container){
+  display:flex; align-items:center; list-style:none; margin:0; padding:0;
 }
-.footer-bottom-right a {
-  color: #fff;
-  text-decoration: none;
-  margin-left: 18px;
-  vertical-align: middle;
-}
-.footer-bottom-right img {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #2176bd;
-  margin-left: 8px;
-  vertical-align: middle;
+.footer-bottom__center :is(.menu>li,.wp-block-navigation__container>li){
+  position:relative; padding:0 14px;
 }
 
-/* Cột thứ 3 đặc biệt */
-.footer-menu-column:nth-child(3) {
-  min-width: 200px;
-  flex-basis: 80px;
+.footer-bottom__center {
+  margin-left: auto;
 }
 
-/* Mobile */
-@media (max-width: 600px) {
-  .footer-menus {
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    max-width: 100%;
-    margin: 0;
-    gap: 0;
+.footer-bottom__center :is(.menu>li+li,.wp-block-navigation__container>li+li)::before,
+.footer-bottom__center :is(.menu>li:last-child,.wp-block-navigation__container>li:last-child)::after{
+  content:""; position:absolute; top:50%; width:1px; height:16px;
+  background:rgba(255,255,255,.7); transform:translateY(-50%);
+}
+.footer-bottom__center :is(.menu>li+li)::before,
+.footer-bottom__center :is(.wp-block-navigation__container>li+li)::before{ left:0; }
+.footer-bottom__center :is(.menu>li:last-child)::after,
+.footer-bottom__center :is(.wp-block-navigation__container>li:last-child)::after{ right:0; }
+.footer-bottom__center a{ color:#fff; text-decoration:none; opacity:.92; font-size:16px; white-space:nowrap; }
+.footer-bottom__center a:hover{ opacity:1; }
+
+/* bottom right: social menu (ẩn chữ, icon tròn) */
+.footer-bottom__right{ display:flex; justify-content:flex-end; }
+.footer-bottom__right .menu{ display:flex; gap:16px; align-items:center; list-style:none; margin:0; padding:0; }
+.footer-bottom__right .menu a{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:40px; height:40px; border-radius:50%; background:#fff;
+  text-indent:-9999px; white-space:nowrap; overflow:hidden; position:relative;
+}
+.footer-bottom__right .menu a::before{
+  content:""; width:24px; height:24px; display:block;
+  background-repeat:no-repeat; background-position:center; background-size:contain;
+}
+/* data-URI icons (màu #2FB6F6) */
+.footer-bottom__right .menu a[href*="facebook.com"]::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%232FB6F6' d='M22 12a10 10 0 1 0-11.563 9.874v-6.988H7.898V12h2.539V9.797c0-2.506 1.492-3.89 3.775-3.89 1.093 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.773-1.63 1.566V12h2.773l-.443 2.886h-2.33v6.988A10.002 10.002 0 0 0 22 12'/%3E%3C/svg%3E");
+}
+.footer-bottom__right .menu a[href*="linkedin.com"]::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%232FB6F6' d='M20.447 20.452h-3.554v-5.569c0-1.328-.026-3.038-1.852-3.038-1.853 0-2.136 1.447-2.136 2.943v5.664H9.352V9h3.414v1.561h.049c.476-.9 1.637-1.85 3.366-1.85 3.6 0 4.266 2.37 4.266 5.451v6.29zM5.337 7.433a2.063 2.063 0 1 1 0-4.126 2.063 2.063 0 0 1 0 4.126zM7.114 20.452H3.558V9h3.556v11.452z'/%3E%3C/svg%3E");
+}
+.footer-bottom__right .menu a[href*="youtube.com"]::before,
+.footer-bottom__right .menu a[href*="youtu.be"]::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%232FB6F6' d='M23.5 6.2a3.02 3.02 0 0 0-2.12-2.14C19.38 3.5 12 3.5 12 3.5s-7.38 0-9.38.56A3.02 3.02 0 0 0 .5 6.2 31.28 31.28 0 0 0 0 12a31.28 31.28 0 0 0 .5 5.8 3.02 3.02 0 0 0 2.12 2.14C4.62 20.5 12 20.5 12 20.5s7.38 0 9.38-.56a3.02 3.02 0 0 0 2.12-2.14A31.28 31.28 0 0 0 24 12a31.28 31.28 0 0 0-.5-5.8zM9.75 15.5v-7l6 3.5-6 3.5z'/%3E%3C/svg%3E");
+}
+
+/* ===== Responsive ===== */
+@media (max-width:992px){
+  .footer-widgets.grid-cols-5{ grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:600px){
+  .footer-widgets.grid-cols-5{ grid-template-columns:1fr; }
+  .footer-bottom{ flex-direction:column; align-items:flex-start; gap:10px; }
+}
+
+/* Mobile: căn giữa toàn bộ footer bottom */
+@media (max-width: 900px){
+  .footer-bottom{
+    flex-direction: column;
+    align-items: center;     /* căn giữa các khối */
+    text-align: center;      /* căn giữa chữ */
   }
-  .footer-menu-column {
-    flex: 0 0 33.3333%;
-    max-width: 33.3333%;
-    padding: 0 6px;
-    margin-bottom: 36px;
-    box-sizing: border-box;
+
+  /* Mỗi vùng full width và căn giữa nội dung bên trong */
+  .footer-bottom__left,
+  .footer-bottom__center,
+  .footer-bottom__right{
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
-  .footer-menu-column h4 {
-    font-size: 16px;
-    margin-bottom: 10px;
-    word-break: break-word;
+
+  /* Hủy margin-left:auto đã set trước để không bị lệch */
+  .footer-bottom__center{ margin-left: 0; }
+
+  /* Bản quyền + menu legal căn giữa */
+  .footer-copy{ text-align:center; }
+  .footer-legal{ justify-content:center; }
+
+  /* Menu trung tâm (Nav/Menu block) căn giữa item */
+  .footer-bottom__center .menu,
+  .footer-bottom__center .wp-block-navigation__container{
+    justify-content: center;
   }
-  .footer-menu-column ul,
-  .footer-menu-column li,
-  .footer-menu-column a {
-    font-size: 14px;
-    word-break: break-word;
-  }
+
+  /* Social icons (menu bên phải) căn giữa hàng icon */
+  .footer-bottom__right .menu{ justify-content: center; }
 }
+
 
 /* end footer */
 

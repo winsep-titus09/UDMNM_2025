@@ -33,8 +33,6 @@
                         'menu_class'     => 'navbar-nav ms-auto mb-2 mb-lg-0',
                         'fallback_cb'    => '__return_false',
                         'depth'          => 2,
-                        // Nếu bạn dùng Bootstrap Navwalker thì thêm ở đây
-                        // 'walker'         => new bootstrap_5_wp_nav_menu_walker()
                     ));
                     ?>
                 </div>
