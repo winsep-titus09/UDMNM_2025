@@ -51,3 +51,17 @@ add_action('widgets_init', function () {
     'after_title'   => '</h5>',
   ]);
 });
+
+
+// Sidebar dành cho bộ lọc tin tức (cột phải)
+add_action('widgets_init', function () {
+    register_sidebar([
+        'name'          => __('Bộ lọc tin tức (cột phải)', 'td'),
+        'id'            => 'news-filter',
+        'description'   => __('Kéo widget bộ lọc vào đây để hiển thị ở trang tin tức.', 'td'),
+        'before_widget' => '<section id="%1$s" class="widget %2$s spv-news-filterCard">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h3 class="spv-news-filterTitle">',
+        'after_title'   => '</h3>',
+    ]);
+});

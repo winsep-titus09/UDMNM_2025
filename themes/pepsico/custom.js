@@ -14,29 +14,30 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     }
 });
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Chỉ áp dụng cho mobile
+document.addEventListener('DOMContentLoaded', function () {
   if (window.innerWidth <= 991) {
-    // Chọn tất cả các menu-item có children
-    document.querySelectorAll('.menu-item-has-children > a').forEach(function(parentLink) {
-      parentLink.addEventListener('click', function(e) {
-        e.preventDefault(); // Ngăn không đi tới link
+    document.querySelectorAll('.menu-item-has-children > a').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var li = a.parentElement;
+        var sub = li.querySelector(':scope > .sub-menu');
+        var arrow = li.querySelector('.mobile-menu-arrow');
+        if (!sub) return; // không có submenu => cho đi link
 
-        // Tìm sub-menu
-        var subMenu = parentLink.nextElementSibling;
-        if (subMenu && subMenu.classList.contains('sub-menu')) {
-          // Toggle class active
-          subMenu.classList.toggle('active');
-
-          // Đổi trạng thái mũi tên
-          var arrow = parentLink.parentElement.querySelector('.mobile-menu-arrow');
-          if (arrow) arrow.classList.toggle('open');
+        // nếu chưa mở => mở và chặn điều hướng
+        if (!sub.classList.contains('active')) {
+          e.preventDefault();
+          sub.classList.add('active');
+          if (arrow) arrow.classList.add('open');
+          a.setAttribute('aria-expanded', 'true');
+        } else {
+          // đã mở => cho đi link bình thường (không preventDefault)
+          a.setAttribute('aria-expanded', 'false');
         }
       });
     });
   }
 });
+
 /**************************************
  * 2) HOVER MỞ/ĐÓNG DROPDOWN CHO DESKTOP
  **************************************/
@@ -406,4 +407,74 @@ document.addEventListener('DOMContentLoaded', function(){
     });
     obs.observe(menu, { attributes:true, attributeFilter:['class'] });
   }
+});
+
+document.addEventListener('DOMContentLoaded', function(){
+  // Bấm vào input date => mở lịch luôn (nếu trình duyệt hỗ trợ showPicker)
+  document.querySelectorAll('.spv-news-filterForm input[type="date"]').forEach(function(el){
+    function openPicker(){ if (typeof el.showPicker === 'function') el.showPicker(); }
+    el.addEventListener('focus', openPicker);
+    el.addEventListener('click', openPicker);
+    // Enter để mở lịch
+    el.addEventListener('keydown', function(e){ if (e.key === 'Enter'){ e.preventDefault(); openPicker(); }});
+  });
+});
+
+
+// slide cho trang san phẩm (single-pepsico.php)
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Mỗi section .drink-variants là 1 slider độc lập
+  document.querySelectorAll('.drink-variants').forEach(function (wrap) {
+    const stage = wrap.querySelector('.dv-stage');
+    if (!stage) return;
+
+    const items = Array.from(stage.querySelectorAll('.dv-item'));
+    if (items.length === 0) return;
+
+    let cur = 0;
+
+    function paint() {
+      items.forEach((it, i) => {
+        it.classList.remove('is-center', 'is-left', 'is-right', 'is-hidden');
+        const diff = (i - cur + items.length) % items.length;
+        if (i === cur) {
+          it.classList.add('is-center');
+        } else if (diff === 1) {
+          it.classList.add('is-right');
+        } else if (diff === items.length - 1) {
+          it.classList.add('is-left');
+        } else {
+          it.classList.add('is-hidden');
+        }
+      });
+    }
+
+    // Khởi tạo
+    paint();
+
+    // Nút điều hướng trong chính section này
+    const prevBtn = wrap.querySelector('.dv-nav.prev');
+    const nextBtn = wrap.querySelector('.dv-nav.next');
+
+    function goPrev(){ cur = (cur - 1 + items.length) % items.length; paint(); }
+    function goNext(){ cur = (cur + 1) % items.length; paint(); }
+
+    prevBtn && prevBtn.addEventListener('click', goPrev);
+    nextBtn && nextBtn.addEventListener('click', goNext);
+
+    // Bàn phím (chỉ khi slider đang trong viewport/được focus)
+    wrap.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') goPrev();
+      if (e.key === 'ArrowRight') goNext();
+    });
+    // Cho focus để nhận phím
+    wrap.tabIndex = 0;
+
+    // Ẩn nút khi ít ảnh
+    if (items.length < 2) {
+      prevBtn && (prevBtn.style.display = 'none');
+      nextBtn && (nextBtn.style.display = 'none');
+    }
+  });
 });

@@ -84,9 +84,15 @@ if (is_post_type_archive()) {
 
     <!-- Cột phải (30%) dành cho bộ lọc sau -->
     <aside class="spv-news-filter" aria-label="Bộ lọc">
-      <div class="spv-news-filterCard">
-        <h3 class="spv-news-filterTitle">Bộ lọc</h3>
-        <p class="spv-news-filterHint">Khu vực bộ lọc (30%).</p>
+      <div class="spv-news-filter__inner"><!-- lớp sticky -->
+        <?php if (is_active_sidebar('news-filter')): ?>
+          <?php dynamic_sidebar('news-filter'); ?>
+        <?php else: ?>
+          <div class="spv-news-filterCard">
+            <h3 class="spv-news-filterTitle"><?php _e('Bộ lọc', 'td'); ?></h3>
+            <p class="spv-news-filterHint"><?php _e('Vào Giao diện → Widgets và kéo “Bộ lọc bài viết (Ngày & Sắp xếp)” vào khu vực này.', 'td'); ?></p>
+          </div>
+        <?php endif; ?>
       </div>
     </aside>
   </div>

@@ -46,14 +46,14 @@ if (is_post_type_archive()) {
         <div class="news-grid mt-5">
             <?php while (have_posts()): the_post(); ?>
                 <article <?php post_class('news-card'); ?>>
-                <a class="news-card__thumb" href="<?php the_permalink(); ?>">
-                <?php if (has_post_thumbnail()): the_post_thumbnail('large', ['loading'=>'lazy']); else: ?>
-                <div class="news-card__placeholder" aria-hidden="true"></div>
-            <?php endif; ?>
-        </a>
-        <h2 class="news-card__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-        <div class="news-card__meta"><span class="news-card__date"><?php echo esc_html(get_the_date()); ?></span></div>
-        </article>
+                        <a class="news-card__thumb" href="<?php the_permalink(); ?>">
+                        <?php if (has_post_thumbnail()): the_post_thumbnail('large', ['loading'=>'lazy']); else: ?>
+                        <div class="news-card__placeholder" aria-hidden="true"></div>
+                    <?php endif; ?>
+                </a>
+                <h2 class="news-card__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+                <div class="news-card__meta"><span class="news-card__date"><?php echo esc_html(get_the_date()); ?></span></div>
+                </article>
     <?php endwhile; ?>
     </div>
 
