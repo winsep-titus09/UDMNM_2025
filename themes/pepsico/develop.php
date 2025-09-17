@@ -39,7 +39,7 @@ $cta_icon   = is_array($cta) ? ($cta['develop_cta_icon'] ?? '') : '';
 ?>
 
 <?php if ($msg || $name || $title || $ava || $cta_text): ?>
-<section class="ceo-msg mt-5">
+<section class="ceo-msg mt-5" aria-label="<?php echo esc_attr__('Thông điệp lãnh đạo', 'pepsico-theme'); ?>">
   <?php if ($msg): ?>
     <h2 class="ceo-msg__text"><?php echo esc_html($msg); ?></h2>
   <?php endif; ?>
@@ -48,7 +48,9 @@ $cta_icon   = is_array($cta) ? ($cta['develop_cta_icon'] ?? '') : '';
     <div class="ceo-msg__divider" aria-hidden="true"></div>
     <div class="ceo-msg__author">
       <?php if ($ava): ?>
-        <img class="ceo-msg__avatar" src="<?php echo esc_url($ava); ?>" alt="<?php echo esc_attr($name ?: 'Avatar'); ?>">
+        <img class="ceo-msg__avatar"
+             src="<?php echo esc_url($ava); ?>"
+             alt="<?php echo esc_attr($name ?: __('Ảnh đại diện', 'pepsico-theme')); ?>">
       <?php endif; ?>
       <div class="ceo-msg__meta">
         <?php if ($name):  ?><div class="ceo-msg__name"><?php echo esc_html($name); ?></div><?php endif; ?>
@@ -71,7 +73,7 @@ if ($banner):
   $btn_link  = $btn['develop_btn2_link'] ?? '';
   $btn_icon  = $btn['develop_btn2_icon'] ?? '';
 ?>
-<section id="developHero" class="develop-hero mt-5">
+<section id="developHero" class="develop-hero mt-5" aria-label="<?php echo esc_attr__('Khối giới thiệu phát triển bền vững', 'pepsico-theme'); ?>">
   <div class="develop-hero__bg">
     <?php if ($bg): ?>
       <img src="<?php echo esc_url($bg); ?>" alt="">
@@ -109,8 +111,8 @@ $GROUP_NAME = 'sustain_slider'; // <— đổi theo "field name" của GROUP tro
 $MAX        = 9;                // số item bạn đã tạo: _1 .. _N
 
 // ----- LẤY DỮ LIỆU TỪ GROUP -----
-$pid   = get_queried_object_id();
-$group = get_field($GROUP_NAME, $pid); // trả về array các subfields
+$pid        = get_queried_object_id();
+$group      = get_field($GROUP_NAME, $pid); // array các subfields
 $main_title = isset($group['ss_main_title']) ? trim($group['ss_main_title']) : '';
 
 $cards = [];
@@ -137,42 +139,41 @@ if (is_array($group)) {
     </div>
 
     <?php if (!empty($cards)): ?>
-    <section class="sustain" data-gap="28" data-autoplay="5000">
-      <div class="sustain-scroller">
-        <?php foreach ($cards as $c): ?>
-          <article class="s-card">
-            <?php if (!empty($c['img'])): ?>
-              <div class="s-card__thumb">
-                <img src="<?php echo esc_url($c['img']); ?>" alt="" loading="lazy">
-              </div>
-            <?php endif; ?>
+      <section class="sustain" data-gap="28" data-autoplay="5000" aria-label="<?php echo esc_attr__('Danh sách sáng kiến bền vững', 'pepsico-theme'); ?>">
+        <div class="sustain-scroller">
+          <?php foreach ($cards as $c): ?>
+            <article class="s-card">
+              <?php if (!empty($c['img'])): ?>
+                <div class="s-card__thumb">
+                  <img src="<?php echo esc_url($c['img']); ?>" alt="">
+                </div>
+              <?php endif; ?>
 
-            <?php if (!empty($c['title'])): ?>
-              <h3 class="s-card__title"><?php echo esc_html($c['title']); ?></h3>
-            <?php endif; ?>
+              <?php if (!empty($c['title'])): ?>
+                <h3 class="s-card__title"><?php echo esc_html($c['title']); ?></h3>
+              <?php endif; ?>
 
-            <?php if (!empty($c['desc'])): ?>
-              <div class="s-card__desc">
-                <?php
-                // Nếu desc là Textarea:
-                echo nl2br(esc_html($c['desc']));
-                // Nếu desc là WYSIWYG thì dùng:
-                // echo wp_kses_post($c['desc']);
-                ?>
-              </div>
-            <?php endif; ?>
-          </article>
-        <?php endforeach; ?>
-      </div>
+              <?php if (!empty($c['desc'])): ?>
+                <div class="s-card__desc">
+                  <?php
+                  // Nếu desc là Textarea:
+                  echo nl2br(esc_html($c['desc']));
+                  // Nếu desc là WYSIWYG thì dùng:
+                  // echo wp_kses_post($c['desc']);
+                  ?>
+                </div>
+              <?php endif; ?>
+            </article>
+          <?php endforeach; ?>
+        </div>
 
-      <button class="s-nav prev" type="button" aria-label="Prev">‹</button>
-      <button class="s-nav next" type="button" aria-label="Next">›</button>
-    </section>
+        <button class="s-nav prev" type="button" aria-label="<?php echo esc_attr__('Trước', 'pepsico-theme'); ?>">‹</button>
+        <button class="s-nav next" type="button" aria-label="<?php echo esc_attr__('Sau', 'pepsico-theme'); ?>">›</button>
+      </section>
     <?php else: ?>
       <!-- DEBUG: Không có dữ liệu trong group "<?php echo esc_html($GROUP_NAME); ?>" cho post ID=<?php echo (int) $pid; ?> -->
     <?php endif; ?>
   </div>
 </main>
-
 
 <?php get_footer(); ?>

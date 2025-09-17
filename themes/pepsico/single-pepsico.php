@@ -26,8 +26,8 @@ $desc        = (string) get_field('desc_drink');
 /* Socials 1..5 */
 $socials = [];
 for ($i=1; $i<=5; $i++){
-  $icon = (string) get_field("social_icon_url_$i");
-  $link = (string) get_field("social_link_url_$i");
+  $icon = (string) get_field("social_drink_icon_url_$i");
+  $link = (string) get_field("social_drink_link_url_$i");
   if ($link) $socials[] = ['icon'=>$icon, 'link'=>$link];
 }
 
@@ -92,15 +92,26 @@ $bottle_html = $bottle_url
       <?php if ($desc): ?><p class="drink-hero__desc"><?= wp_kses_post($desc) ?></p><?php endif; ?>
 
       <?php if ($socials): ?>
-        <nav class="drink-hero__socials" aria-label="Nền tảng">
-          <?php foreach ($socials as $s): ?>
-            <a href="<?= esc_url($s['link']) ?>" target="_blank" rel="noopener">
-              <?php if ($s['icon']): ?><img src="<?= esc_url($s['icon']) ?>" alt=""><?php endif; ?>
-              <span><?= esc_html(parse_url($s['link'], PHP_URL_HOST) ?: 'Link') ?></span>
+      <nav class="drink-hero__socials icons-only" aria-label="Nền tảng">
+        <div class="social-card">
+          <?php foreach ($socials as $s):
+            $host = parse_url($s['link'], PHP_URL_HOST) ?: '';
+            // đoán tên mạng để alt/aria chuẩn hơn
+            $brand = 'Social';
+            if (stripos($host,'youtube') !== false)  $brand = 'YouTube';
+            elseif (stripos($host,'facebook') !== false) $brand = 'Facebook';
+            elseif (stripos($host,'instagram') !== false) $brand = 'Instagram';
+            elseif (stripos($host,'tiktok') !== false) $brand = 'TikTok';
+          ?>
+            <a class="social-icon" href="<?= esc_url($s['link']) ?>" target="_blank" rel="noopener" aria-label="<?= esc_attr($brand) ?>">
+              <?php if ($s['icon']): ?>
+                <img src="<?= esc_url($s['icon']) ?>" alt="<?= esc_attr($brand) ?>">
+              <?php endif; ?>
             </a>
           <?php endforeach; ?>
-        </nav>
-      <?php endif; ?>
+        </div>
+      </nav>
+    <?php endif; ?>
     </div>
 
     <div class="drink-hero__bottleWrap"><?= $bottle_html ?></div>

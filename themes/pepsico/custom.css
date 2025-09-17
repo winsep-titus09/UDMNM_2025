@@ -3271,9 +3271,6 @@ img.spv-contacts__head-icon {
 }
 
 /* ===== Post body ===== */
-article.news-entry {
-  margin: 0 120px;
-}
 .news-entry__title {
   font-size: clamp(28px, 4.6vw, 45px);
   line-height: 1.15;
@@ -3354,6 +3351,8 @@ article.news-entry {
   .news-entry__content {
     font-size: 16px;
     line-height: 1.7;
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
   .news-entry__content figure {
     margin: 16px 0;
@@ -4158,17 +4157,22 @@ body .spv-newsheads {
   .drink-hero {
     grid-template-columns: 1fr;
     min-height: 70svh;
-    padding: 48px 18px;
+    padding: 48px 0px;
   }
 }
 
 /* ====== DRINK TYPE GRADIENTS ====== */
+.postid-741 .drink-hero,
+.postid-744 .drink-hero,
+.postid-745 .drink-hero,
 .postid-258 .drink-hero { /* Sting */
   background-image:
     linear-gradient(180deg, rgba(255,255,255,.65), rgba(255,255,255,.25)),
     linear-gradient(180deg, #F9EDED 0%, #E2A7A6 42%, #BB2F2C 100%);
 }
 
+.postid-735 .drink-hero,
+.postid-739 .drink-hero,
 .postid-262 .drink-hero,
 .postid-254 .drink-hero,
 .postid-245 .drink-hero,
@@ -4178,12 +4182,15 @@ body .spv-newsheads {
     linear-gradient(180deg, #f8fbff 0%, #eef5ff 28%, #cfe2ff 52%, #7fa8ff 78%, #2c6ad9 100%);
 }
 
+.postid-747 .drink-hero,
 .postid-247 .drink-hero { /* 7UP */
   background-image:
     radial-gradient(600px 420px at 70% 12%, rgba(255,255,255,.82) 0%, rgba(255,255,255,0) 58%),
     linear-gradient(180deg, #f6fced 0%, #e6f7db 28%, #c2eebe 52%, #7cdd7c 78%, #1aa840 100%);
 }
 
+.postid-742 .drink-hero,
+.postid-746 .drink-hero,
 .postid-256 .drink-hero,
 .postid-249 .drink-hero { /* Fanta */
   background-image:
@@ -4191,6 +4198,9 @@ body .spv-newsheads {
     linear-gradient(180deg, #fde8dc 0%, #fcd1b5 28%, #f9a873 52%, #f6823e 78%, #f26522 100%);
 }
 
+.postid-737 .drink-hero,
+.postid-738 .drink-hero,
+.postid-740 .drink-hero,
 .postid-260 .drink-hero,
 .postid-266 .drink-hero,
 .postid-264 .drink-hero { /* Mirinda vàng */
@@ -4199,6 +4209,7 @@ body .spv-newsheads {
     linear-gradient(180deg, #fff8e6 0%, #fff0bf 26%, #ffe082 52%, #ffd053 78%, #f2b009 100%);
 }
 
+.postid-736 .drink-hero,
 .postid-268 .drink-hero { /* Cà phê */
   background-image:
     radial-gradient(600px 420px at 70% 12%, rgba(255,255,255,.86) 0%, rgba(255,255,255,0) 58%),
@@ -4250,24 +4261,47 @@ body .spv-newsheads {
   font-size: clamp(24px,3.2vw,40px);
 }
 .drink-hero__desc { max-width: 52ch; opacity: .9; }
-.drink-hero__socials {
-  margin-top: 18px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.drink-hero__socials a {
+/* khối bao socials */
+.drink-hero__socials.icons-only { margin-top: 16px; }
+
+/* card trắng bo góc + viền xanh nhạt + bóng */
+.drink-hero__socials .social-card{
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
-  border-radius: 10px;
+  gap: 12px;
+  padding: 12px 16px;
   background: #fff;
-  border: 1px solid #e5e7eb;
-  text-decoration: none;
-  font-weight: 600;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 153, 255, .4);         /* viền xanh nhạt */
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.12),                   /* bóng rơi */
+    0 1px 2px rgba(0,0,0,.08);                     /* bóng nhỏ */
 }
-.drink-hero__socials img { width: 18px; height: 18px; object-fit: contain; }
+
+/* mỗi icon là 1 link hình tròn cùng kích thước */
+.drink-hero__socials .social-icon{
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  outline: none;
+}
+
+.drink-hero__socials .social-icon img{
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;        /* để logo tròn */
+  display: block;
+  object-fit: cover;         /* logo svg/png đều gọn */
+}
+
+/* hover tinh tế */
+.drink-hero__socials .social-icon:hover{
+  transform: translateY(-1px);
+}
 
 .drink-hero__bottleWrap {
   position: relative;
@@ -4565,4 +4599,75 @@ body .spv-newsheads {
 @media (prefers-reduced-motion: reduce){
   .leader__thumb img,
   .leader__ln img{ transition:none; }
+}
+
+/* ==== Floating switcher right-center, stacked & animated ==== */
+.float-lang{
+  position: fixed;
+  right: 16px;
+  top: 40%;
+  transform: translateY(-50%);
+  width: 52px;                 /* chỗ cho hiệu ứng chồng */
+  z-index: 9999;
+}
+
+/* Nút VUÔNG, nền trắng, chữ xanh */
+.float-lang__item{
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 0;            /* vuông */
+  background: #fff;
+  color: #26AAE1;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 12px;
+  border: 1px solid #26AAE1;
+  box-shadow: 0 6px 18px rgba(0,0,0,.12);
+  transition: transform .25s ease, box-shadow .25s ease, opacity .2s ease;
+  will-change: transform;
+}
+
+/* Layout mặc định: CHỒNG LỆCH dọc */
+.float-lang.is-stacked .float-lang__item:first-child{
+  transform: translateY(8px);
+  z-index: 2;
+}
+.float-lang.is-stacked .float-lang__item:last-child{
+  transform: translateY(-8px);
+  z-index: 1;
+}
+
+/* Khi 1 item được chọn làm TOP (khi bấm hoặc là ngôn ngữ hiện tại) */
+.float-lang .float-lang__item.is-top{
+  transform: translateY(0);
+  z-index: 3;
+  box-shadow: 0 10px 22px rgba(0,0,0,.18);
+}
+
+/* Item còn lại “tụt” về sau một chút để nhìn rõ lớp */
+.float-lang .float-lang__item:not(.is-top){
+  transform: translateY(-8px);
+  z-index: 2;
+}
+
+/* Active (ngôn ngữ hiện tại): ĐẢO MÀU */
+.float-lang .float-lang__item.is-active{
+  background: #26AAE1;
+  color: #fff;
+  border-color: #26AAE1;
+}
+
+/* Hover nhẹ */
+.float-lang__item:hover{ opacity: 1; box-shadow: 0 10px 22px rgba(0,0,0,.18); }
+
+/* Mobile */
+@media (max-width:768px){
+  .float-lang{ right:10px; width:46px; }
+  .float-lang__item{ width:40px; height:40px; font-size:11px; }
+  .float-lang.is-stacked .float-lang__item:first-child{ transform: translateY(6px); }
+  .float-lang.is-stacked .float-lang__item:last-child{ transform: translateY(-6px); }
+  .float-lang .float-lang__item:not(.is-top){ transform: translateY(-6px); }
 }
