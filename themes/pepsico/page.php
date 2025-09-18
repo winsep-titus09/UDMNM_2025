@@ -19,11 +19,17 @@ $arrow_icon = "data:image/svg+xml;utf8,%3Csvg display='inline-block' color='inhe
         <?php if (!empty($banner[$key])): ?>
           <div class="slide <?php echo $i === 0 ? 'active' : ''; ?>">
             <?php
-              // Ảnh đầu: eager + fetchpriority=high (cải thiện LCP)
+              // Lấy alt: ưu tiên alt trong Media; fallback tiêu đề ảnh; nếu vẫn thiếu => alt rỗng (decorative)
+              $alt = '';
+              if (!empty($banner[$key]['alt'])) {
+                $alt = $banner[$key]['alt'];
+              } elseif (!empty($banner[$key]['title'])) {
+                $alt = $banner[$key]['title'];
+              }
+
               $attrs = [
-                'alt'        => $banner[$key]['alt'] ?? '',
-                'decoding'   => 'async',
-                'sizes'      => '100vw', // banner full width
+                'decoding' => 'async',
+                'sizes'    => '100vw', // banner full width
               ];
               if ($i === 0) {
                 $attrs['loading']       = 'eager';
@@ -32,8 +38,11 @@ $arrow_icon = "data:image/svg+xml;utf8,%3Csvg display='inline-block' color='inhe
                 $attrs['loading'] = 'lazy';
               }
             ?>
-            <img src="<?php echo esc_url($banner[$key]['url']); ?>"
-                 <?php foreach ($attrs as $k=>$v) echo $v!=='' ? $k.'="'.esc_attr($v).'" ' : ''; ?>>
+            <img
+              src="<?php echo esc_url($banner[$key]['url']); ?>"
+              alt="<?php echo esc_attr($alt); ?>"
+              <?php foreach ($attrs as $k=>$v) echo $k.'="'.esc_attr($v).'" '; ?>
+            >
           </div>
         <?php endif; ?>
       <?php endforeach; ?>
