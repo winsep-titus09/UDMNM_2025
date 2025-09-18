@@ -10,6 +10,17 @@ function pepsico_enqueue_scripts() {
 }
 add_action('wp_enqueue_scripts', 'pepsico_enqueue_scripts');
 
+function add_preload_to_css($html, $handle) {
+    // Danh sách các handle muốn preload
+    $preload_handles = array('custom-css', 'style-css', 'bootstrap-css');
+    if (in_array($handle, $preload_handles)) {
+        // Chuyển link stylesheet thành preload và onload
+        $html = str_replace("rel='stylesheet'", "rel='preload' as='style' onload=\"this.rel='stylesheet'\"", $html);
+    }
+    return $html;
+}
+add_filter('style_loader_tag', 'add_preload_to_css', 10, 2);
+
 // Gỡ CSS của Gutenberg/Block Library ở frontend (nếu không dùng)
 add_action('wp_enqueue_scripts', function () {
   if (!is_admin()) {
