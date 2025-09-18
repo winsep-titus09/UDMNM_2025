@@ -15,36 +15,19 @@ $arrow_icon = "data:image/svg+xml;utf8,%3Csvg display='inline-block' color='inhe
 <?php if ($banner = get_field('banner_slide')): ?>
   <div class="banner-slider" role="region" aria-label="<?php echo esc_attr__('Trình chiếu banner', 'pepsico-theme'); ?>">
     <div class="slides-wrapper">
-      <?php foreach (['image1','image2'] as $i => $key): ?>
-        <?php if (!empty($banner[$key])): ?>
-          <div class="slide <?php echo $i === 0 ? 'active' : ''; ?>">
-            <?php
-              // Lấy alt: ưu tiên alt trong Media; fallback tiêu đề ảnh; nếu vẫn thiếu => alt rỗng (decorative)
-              $alt = '';
-              if (!empty($banner[$key]['alt'])) {
-                $alt = $banner[$key]['alt'];
-              } elseif (!empty($banner[$key]['title'])) {
-                $alt = $banner[$key]['title'];
-              }
-
-              $attrs = [
-                'decoding' => 'async',
-                'sizes'    => '100vw', // banner full width
-              ];
-              if ($i === 0) {
-                $attrs['loading']       = 'eager';
-                $attrs['fetchpriority'] = 'high';
-              } else {
-                $attrs['loading'] = 'lazy';
-              }
-            ?>
-            <img
-              src="<?php echo esc_url($banner[$key]['url']); ?>"
-              alt="<?php echo esc_attr($alt); ?>"
-              <?php foreach ($attrs as $k=>$v) echo $k.'="'.esc_attr($v).'" '; ?>
-            >
-          </div>
-        <?php endif; ?>
+      <?php foreach (['image1','image2'] as $i => $key):
+        if (empty($banner[$key]['url'])) continue;
+        $loading = $i === 0 ? 'eager' : 'lazy';
+        $fetch   = $i === 0 ? ' fetchpriority="high"' : '';
+      ?>
+        <div class="slide <?php echo $i === 0 ? 'active' : ''; ?>">
+          <img
+            src="<?php echo esc_url($banner[$key]['url']); ?>"
+            alt=""
+            decoding="async"
+            sizes="100vw"
+            loading="<?php echo $loading; ?>"<?php echo $fetch; ?>>
+        </div>
       <?php endforeach; ?>
     </div>
   </div>
