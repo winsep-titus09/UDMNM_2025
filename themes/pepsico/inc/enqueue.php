@@ -35,6 +35,49 @@ add_filter('style_loader_tag', function ($html, $handle, $href, $media) {
   return $preload . "\n" . $fallback . "\n";
 }, 999, 4); // priority cao để chắc chắn override
 
+/* ========== HARD MODE: dequeue + preload (không chặn render) ========== */
+
+/* 1) Gỡ 3 stylesheet ra khỏi hàng đợi (tránh WP in <link rel="stylesheet">) */
+add_action('wp_enqueue_scripts', function () {
+  // đúng handle theo code của bạn
+  wp_dequeue_style('pepsico-style');
+  wp_dequeue_style('pepsico-custom');
+  wp_dequeue_style('bootstrap');
+}, 100);
+
+/* 2) In lại theo dạng preload + onload + noscript trong <head> */
+add_action('wp_head', function () {
+  $style_css  = get_stylesheet_uri();                                  // /pepsico/style.css
+  $custom_css = get_template_directory_uri() . '/custom.css';          // /pepsico/custom.css
+  $bootstrap  = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css';
+
+  // style.css
+  echo '<link rel="preload" as="style" href="' . esc_url($style_css) . '" onload="this.onload=null;this.rel=\'stylesheet\'">' . "\n";
+  echo '<noscript><link rel="stylesheet" href="' . esc_url($style_css) . '"></noscript>' . "\n";
+
+  // custom.css
+  echo '<link rel="preload" as="style" href="' . esc_url($custom_css) . '" onload="this.onload=null;this.rel=\'stylesheet\'">' . "\n";
+  echo '<noscript><link rel="stylesheet" href="' . esc_url($custom_css) . '"></noscript>' . "\n";
+
+  // bootstrap.css (chỉ để nếu thật sự cần)
+  echo '<link rel="preload" as="style" href="' . esc_url($bootstrap) . '" onload="this.onload=null;this.rel=\'stylesheet\'">' . "\n";
+  echo '<noscript><link rel="stylesheet" href="' . esc_url($bootstrap) . '"></noscript>' . "\n";
+}, 1);
+
+/* 3) (khuyên dùng) Tối ưu Google Fonts không chặn render – đưa vào <head> */
+add_action('wp_head', function () {
+  ?>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap"
+        onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap">
+  </noscript>
+  <?php
+}, 0);
 
 // Gỡ CSS của Gutenberg/Block Library ở frontend (nếu không dùng)
 add_action('wp_enqueue_scripts', function () {
