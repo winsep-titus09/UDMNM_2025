@@ -3,12 +3,15 @@
  **************************************/
 document.addEventListener("DOMContentLoaded", function(){
     if(window.innerWidth <= 991){
-        document.querySelectorAll('.menu-item-has-children').forEach(function(item){
-            // Tránh chèn trùng mũi tên nếu đã có
+        var menuItems = document.querySelectorAll('.menu-item-has-children');
+        var fragment = document.createDocumentFragment();
+        menuItems.forEach(function(item){
             if(!item.querySelector('.mobile-menu-arrow')){
                 var arrow = document.createElement('span');
                 arrow.className = 'mobile-menu-arrow';
-                // Chèn ngay sau link của mục có submenu
+                // Chèn tạm vào fragment
+                fragment.appendChild(arrow);
+                // Chèn vào DOM sau link
                 item.querySelector('a').after(arrow);
             }
         });

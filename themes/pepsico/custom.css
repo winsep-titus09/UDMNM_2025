@@ -411,7 +411,7 @@ h5.footer-bottom-title {
 
 @media (max-width: 900px) {
   .content1-group h2 {
-    font-size: 25px; /* nhỏ hơn */
+    font-size: 17px; /* nhỏ hơn */
   }
   .content1-group .content1-desc {
     font-size: 10px; /* nhỏ hơn */
