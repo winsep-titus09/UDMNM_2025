@@ -1,0 +1,307 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Pepsico\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-18 03:46+0000\n"
+"PO-Revision-Date: 2025-09-18 05:04+0000\n"
+"Last-Translator: \n"
+"Language-Team: English (United States)\n"
+"Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.8.0; wp-6.8.2; php-8.2.12\n"
+"X-Domain: pepsico-theme"
+
+#: page-about-us.php:35
+msgid "Biểu tượng giới thiệu"
+msgstr ""
+
+#: products.php:26
+msgid "Băng chuyền sản phẩm"
+msgstr ""
+
+#: inc/widget.php:54
+msgid "Bộ lọc tin tức (cột phải)"
+msgstr ""
+
+#: page-about-us.php:186
+msgid "Chuyển tab thành tựu"
+msgstr ""
+
+#: footer.php:5
+msgid "Chân trang"
+msgstr ""
+
+#: archive-tin_tuc_ve_cong_ty.php:82 news.php:154 news.php:212
+msgid "Chưa có bài viết."
+msgstr ""
+
+#: products.php:51
+msgid "Chưa có sản phẩm."
+msgstr ""
+
+#: footer.php:22
+msgid "Cột chân trang %d"
+msgstr ""
+
+#: develop.php:142
+msgid "Danh sách sáng kiến bền vững"
+msgstr ""
+
+#: footer.php:30
+msgid "Dòng cuối chân trang"
+msgstr ""
+
+#: inc/widget.php:33
+msgid "Footer Bottom Center"
+msgstr ""
+
+#: inc/widget.php:23
+msgid "Footer Bottom Left"
+msgstr ""
+
+#: inc/widget.php:43
+msgid "Footer Bottom Right"
+msgstr ""
+
+#: inc/widget.php:11
+msgid "Footer cột %d"
+msgstr ""
+
+#: products.php:66
+msgid "Giới thiệu thương hiệu"
+msgstr ""
+
+#. Name of the template
+#: page.php:2
+msgid "Home"
+msgstr ""
+
+#. Author URI of the theme
+msgid "https://github.com/winsep-titus09"
+msgstr ""
+
+#. URI of the theme
+msgid "https://github.com/winsep-titus09/pepsico"
+msgstr ""
+
+#: contact.php:80
+msgid "Khu vực văn phòng"
+msgstr ""
+
+#: develop.php:76
+msgid "Khối giới thiệu phát triển bền vững"
+msgstr ""
+
+#: inc/widget.php:13
+msgid "Kéo thả widget hiển thị ở cột %d của footer"
+msgstr ""
+
+#: inc/widget.php:56
+msgid "Kéo widget bộ lọc vào đây để hiển thị ở trang tin tức."
+msgstr ""
+
+#: archive-tin_tuc_ve_cong_ty.php:30
+#, php-format
+msgid "Kết quả cho: %s"
+msgstr "Results for: %s"
+
+#: directors.php:73
+msgid "LinkedIn"
+msgstr ""
+
+#. Name of the template
+#: contact.php:2 contact.php:161
+msgid "Liên hệ"
+msgstr "Contact"
+
+#: directors.php:57
+msgid "Lãnh đạo"
+msgstr ""
+
+#: page-about-us.php:78
+msgid "LỊCH SỬ HÌNH THÀNH"
+msgstr ""
+
+#: page-about-us.php:83
+msgid "Mốc thời gian"
+msgstr ""
+
+#: header.php:43
+msgid "Mở/đóng menu"
+msgstr ""
+
+#: news.php:52
+msgid "Mục tin 1"
+msgstr ""
+
+#: news.php:159
+msgid "Mục tin 2"
+msgstr ""
+
+#. Name of the theme
+msgid "Pepsico"
+msgstr ""
+
+#. Name of the template
+#: develop.php:2
+msgid "Phát triển bền vững"
+msgstr ""
+
+#: archive-tin_tuc_ve_cong_ty.php:71
+msgid "Phân trang"
+msgstr ""
+
+#: develop.php:171
+msgid "Sau"
+msgstr ""
+
+#: archive-tin_tuc_ve_cong_ty.php:76
+msgid "Sau »"
+msgstr ""
+
+#: page.php:159
+msgid "SẢN PHẨM CỦA CHÚNG TÔI"
+msgstr ""
+
+#. Name of the template
+#: page.php:171 products.php:2
+msgid "Sản phẩm"
+msgstr ""
+
+#: page-about-us.php:119
+msgid "SỨ MỆNH & GIÁ TRỊ CỐT LÕI"
+msgstr ""
+
+#: page-about-us.php:154
+msgid "Tab 1"
+msgstr ""
+
+#: page-about-us.php:155
+msgid "Tab 2"
+msgstr ""
+
+#. Description of the theme
+msgid ""
+"Theme Pepsico sử dụng Bootstrap, chỉnh logo web và logo wp-admin, tối ưu ảnh "
+"upload, có custom.css để tùy chỉnh."
+msgstr ""
+
+#: page-about-us.php:181
+msgid "THÀNH TỰU"
+msgstr ""
+
+#: page-about-us.php:185
+msgid "Thành tựu"
+msgstr ""
+
+#: develop.php:42
+msgid "Thông điệp lãnh đạo"
+msgstr ""
+
+#: inc/widget.php:25
+msgid "Thường dùng cho Copyright. Kéo thả Text/HTML."
+msgstr ""
+
+#: inc/widget.php:35
+msgid "Thường dùng cho Menu legal. Kéo thả Navigation Menu hoặc List."
+msgstr ""
+
+#: inc/widget.php:45
+msgid "Thường dùng cho Social Icons (block) hoặc HTML icon."
+msgstr ""
+
+msgid "TIN TỨC VỀ CÔNG TY"
+msgstr "COMPANY NEWS"
+
+#. Name of the template
+#: news.php:2
+msgid "Tin tức"
+msgstr "News"
+
+#: footer.php:11 header.php:30
+msgid "Trang chủ"
+msgstr ""
+
+#: page.php:16
+msgid "Trình chiếu banner"
+msgstr ""
+
+#: develop.php:170
+msgid "Trước"
+msgstr ""
+
+#: contact.php:33
+msgid "Văn phòng chính"
+msgstr ""
+
+#. Name of the template
+#: page-about-us.php:2
+msgid "Về Chúng Tôi"
+msgstr ""
+
+#. Author of the theme
+msgid "winsep"
+msgstr ""
+
+#: directors.php:71
+msgid "Xem hồ sơ LinkedIn"
+msgstr ""
+
+#: page-about-us.php:45
+msgid "Xem PepsiCo"
+msgstr ""
+
+#: page-about-us.php:42
+msgid "Xem Suntory"
+msgstr ""
+
+#: page.php:142
+msgid "XEM THÊM"
+msgstr ""
+
+#: page-about-us.php:49
+msgid "Xem thêm"
+msgstr ""
+
+#: news.php:37 news.php:43
+msgid "XEM TẤT CẢ"
+msgstr ""
+
+#: archive-tin_tuc_ve_cong_ty.php:49 news.php:93 news.php:129 page.php:175
+#: products.php:32
+#, php-format
+msgid "Xem “%s”"
+msgstr ""
+
+#: archive-tin_tuc_ve_cong_ty.php:75
+msgid "« Trước"
+msgstr ""
+
+#: header.php:22
+msgid "Điều hướng chính"
+msgstr ""
+
+#: header.php:21
+msgid "Đầu trang"
+msgstr ""
+
+#. Name of the template
+#: directors.php:2
+msgid "ĐỘI NGŨ LÃNH ĐẠO"
+msgstr ""
+
+#: directors.php:50
+msgid "Đội ngũ lãnh đạo"
+msgstr ""
+
+#: contact.php:15
+msgid "Ảnh nền trang liên hệ"
+msgstr ""
+
+#: develop.php:53
+msgid "Ảnh đại diện"
+msgstr ""

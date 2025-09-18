@@ -190,6 +190,66 @@
                     "append": ""
                 }
             ]
+        },
+        {
+            "key": "field_68cb97282c65e",
+            "label": "Page con",
+            "name": "page_con",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_68cb97322c65f",
+                    "label": "Tin tức về Công ty",
+                    "name": "tin_tuc_ve_cong_ty",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_68cb97482c660",
+                    "label": "Thông cáo báo chí",
+                    "name": "thong_cao_bao_chi",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                }
+            ]
         }
     ],
     "location": [
@@ -210,5 +270,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1758123585
+    "modified": 1758173016
 }

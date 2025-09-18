@@ -22,22 +22,35 @@ if (function_exists('get_field')) {
 }
 
 // 2) TIÊU ĐỀ
-if (is_post_type_archive()) {
-  $hero_title = post_type_archive_title('', false);
-} elseif (is_tax()) {
-  $hero_title = single_term_title('', false);
-} elseif (is_search()) {
-  $hero_title = sprintf(__('Kết quả cho: %s', 'pepsico-theme'), get_search_query());
-} elseif (is_archive()) {
-  $hero_title = get_the_archive_title();
-} else {
-  $hero_title = get_the_title();
+// LẤY FIELD TỪ TRANG "Tin tức" (slug: tin-tuc)
+$hero_title = '';
+
+if (function_exists('get_field')) {
+  // Tìm trang Tin tức theo slug (đổi 'tin-tuc' nếu slug khác)
+  $news_page = get_page_by_path('tin-tuc');
+
+  // Nếu dùng Polylang và muốn đúng trang theo ngôn ngữ hiện tại:
+  if ($news_page && function_exists('pll_get_post')) {
+    $translated_id = pll_get_post($news_page->ID);
+    if ($translated_id) $news_page = get_post($translated_id);
+  }
+
+  $target_id  = $news_page ? $news_page->ID : 0;
+  $page_con   = $target_id ? get_field('page_con', $target_id) : null;
+
+  if (is_array($page_con) && !empty($page_con['tin_tuc_ve_cong_ty'])) {
+    $hero_title = (string) $page_con['tin_tuc_ve_cong_ty'];
+  } else {
+    // Trường hợp gọi trực tiếp subfield (nếu bạn không dùng group wrapper)
+    $hero_title = (string) get_field('tin_tuc_ve_cong_ty', $target_id);
+  }
 }
 ?>
-<section class="page-hero" <?php if ($bg) echo 'style="background-image:url(' . esc_url($bg) . ')"'; ?>>
+<section class="page-hero" <?php if (!empty($bg)) echo 'style="background-image:url(' . esc_url($bg) . ')"'; ?>>
   <span class="page-hero__overlay" aria-hidden="true"></span>
   <h1 class="page-hero__title"><?php echo esc_html($hero_title); ?></h1>
 </section>
+
 
 <main class="container archive-company-news">
 

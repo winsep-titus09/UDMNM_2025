@@ -19,37 +19,35 @@ if (function_exists('get_field')) {
 }
 
 // 2) TIÊU ĐỀ
-if (is_post_type_archive()) {
-  $pt = get_query_var('post_type');
+// LẤY FIELD TỪ TRANG "Tin tức" (slug: tin-tuc)
+$hero_title = '';
 
-  if (function_exists('pll__')) {
-    if ($pt === 'company_news') {
-      // VI: Tin tức về công ty  | EN: Company News
-      $hero_title = pll__('Tin tức về công ty');
-    } elseif ($pt === 'press_release') {
-      // VI: Thông cáo báo chí   | EN: Press Releases
-      $hero_title = pll__('Thông cáo báo chí');
-    } else {
-      $hero_title = post_type_archive_title('', false);
-    }
-  } else {
-    $hero_title = post_type_archive_title('', false);
+if (function_exists('get_field')) {
+  // Tìm trang Tin tức theo slug (đổi 'tin-tuc' nếu slug khác)
+  $news_page = get_page_by_path('tin-tuc');
+
+  // Nếu dùng Polylang và muốn đúng trang theo ngôn ngữ hiện tại:
+  if ($news_page && function_exists('pll_get_post')) {
+    $translated_id = pll_get_post($news_page->ID);
+    if ($translated_id) $news_page = get_post($translated_id);
   }
-} elseif (is_tax()) {
-  $hero_title = single_term_title('', false);
-} elseif (is_search()) {
-  $hero_title = sprintf(__('Kết quả cho: %s', 'td'), get_search_query());
-} elseif (is_archive()) {
-  $hero_title = get_the_archive_title();
-} else {
-  $hero_title = get_the_title();
-}
 
+  $target_id  = $news_page ? $news_page->ID : 0;
+  $page_con   = $target_id ? get_field('page_con', $target_id) : null;
+
+  if (is_array($page_con) && !empty($page_con['thong_cao_bao_chi'])) {
+    $hero_title = (string) $page_con['thong_cao_bao_chi'];
+  } else {
+    // Trường hợp gọi trực tiếp subfield (nếu bạn không dùng group wrapper)
+    $hero_title = (string) get_field('thong_cao_bao_chi', $target_id);
+  }
+}
 ?>
-<section class="page-hero" <?php if($bg) echo 'style="background-image:url('.esc_url($bg).')"'; ?>>
+<section class="page-hero" <?php if (!empty($bg)) echo 'style="background-image:url(' . esc_url($bg) . ')"'; ?>>
   <span class="page-hero__overlay" aria-hidden="true"></span>
   <h1 class="page-hero__title"><?php echo esc_html($hero_title); ?></h1>
 </section>
+
 
 <main class="container archive-company-news">
   <div class="spv-news-archive mt-5">
