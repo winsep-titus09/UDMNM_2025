@@ -56,3 +56,7 @@ add_action('wp_footer', function () {
     }
     echo '</nav>';
 }, 20);
+
+add_action('after_setup_theme', function () {
+  add_theme_support('title-tag'); // cho phép WP sinh <title> động
+});
