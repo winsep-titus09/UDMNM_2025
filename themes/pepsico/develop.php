@@ -12,7 +12,18 @@ $ttl = is_array($dev) ? ($dev['develop_banner_title'] ?? '') : '';
 ?>
 
 <?php if ($bg || $ttl): ?>
-<section class="spv-hero" style="--spv-hero-bg: url('<?php echo esc_url($bg); ?>')">
+<?php
+  // Lựa chọn:
+  // - Lazy background (mặc định): dùng class lazy-bg + data-bg-var để trì hoãn tải nền hero (tiết kiệm băng thông).
+  // - Nếu muốn tối ưu LCP: ĐỔI thành style="--spv-hero-bg: url('...')" và bỏ class "lazy-bg" + thuộc tính data-*.
+?>
+<section
+  class="spv-hero lazy-bg"
+  <?php if ($bg): ?>data-bg="<?php echo esc_url($bg); ?>" data-bg-var="--spv-hero-bg"<?php endif; ?>
+>
+  <?php if ($bg): ?>
+    <noscript><style>.spv-hero{--spv-hero-bg:url('<?php echo esc_url($bg); ?>')}</style></noscript>
+  <?php endif; ?>
   <div class="spv-hero__bg" aria-hidden="true"></div>
   <div class="spv-hero__inner">
     <?php if ($ttl): ?>
@@ -50,12 +61,25 @@ $cta_icon   = is_array($cta) ? ($cta['develop_cta_icon'] ?? '') : '';
       <?php if ($ava): ?>
         <img class="ceo-msg__avatar"
              src="<?php echo esc_url($ava); ?>"
-             alt="<?php echo esc_attr($name ?: __('Ảnh đại diện', 'pepsico-theme')); ?>">
+             alt="<?php echo esc_attr($name ?: __('Ảnh đại diện', 'pepsico-theme')); ?>"
+             loading="lazy" decoding="async" sizes="96px">
       <?php endif; ?>
       <div class="ceo-msg__meta">
         <?php if ($name):  ?><div class="ceo-msg__name"><?php echo esc_html($name); ?></div><?php endif; ?>
         <?php if ($title): ?><div class="ceo-msg__title"><?php echo esc_html($title); ?></div><?php endif; ?>
       </div>
+    </div>
+  <?php endif; ?>
+
+  <?php if ($cta_text && $cta_url): ?>
+    <div class="ceo-msg__cta">
+      <a class="btn" href="<?php echo esc_url($cta_url); ?>"<?php echo $cta_target; ?>>
+        <span><?php echo esc_html($cta_text); ?></span>
+        <?php if ($cta_icon):
+          $allowed = array_merge( wp_allowed_protocols(), ['data'] ); ?>
+          <img class="icon" src="<?php echo esc_url($cta_icon, $allowed); ?>" alt="" decoding="async">
+        <?php endif; ?>
+      </a>
     </div>
   <?php endif; ?>
 </section>
@@ -76,7 +100,7 @@ if ($banner):
 <section id="developHero" class="develop-hero mt-5" aria-label="<?php echo esc_attr__('Khối giới thiệu phát triển bền vững', 'pepsico-theme'); ?>">
   <div class="develop-hero__bg">
     <?php if ($bg): ?>
-      <img src="<?php echo esc_url($bg); ?>" alt="">
+      <img src="<?php echo esc_url($bg); ?>" alt="" loading="lazy" decoding="async" sizes="100vw">
     <?php endif; ?>
     <span class="develop-hero__fog" aria-hidden="true"></span>
   </div>
@@ -95,9 +119,9 @@ if ($banner):
     <?php if ($btn_title && $btn_link): ?>
       <a class="develop-hero__btn" href="<?php echo esc_url($btn_link); ?>">
         <span><?php echo esc_html($btn_title); ?></span>
-        <?php if ($btn_icon): 
+        <?php if ($btn_icon):
           $allowed = array_merge( wp_allowed_protocols(), ['data'] ); ?>
-          <img class="icon" src="<?php echo esc_url($btn_icon, $allowed); ?>" alt="" loading="lazy">
+          <img class="icon" src="<?php echo esc_url($btn_icon, $allowed); ?>" alt="" loading="lazy" decoding="async" sizes="24px">
         <?php endif; ?>
       </a>
     <?php endif; ?>
@@ -145,7 +169,11 @@ if (is_array($group)) {
             <article class="s-card">
               <?php if (!empty($c['img'])): ?>
                 <div class="s-card__thumb">
-                  <img src="<?php echo esc_url($c['img']); ?>" alt="">
+                  <img
+                    src="<?php echo esc_url($c['img']); ?>"
+                    alt=""
+                    loading="lazy" decoding="async"
+                    sizes="(min-width:1200px) 25vw, (min-width:768px) 33vw, 50vw">
                 </div>
               <?php endif; ?>
 
@@ -175,5 +203,43 @@ if (is_array($group)) {
     <?php endif; ?>
   </div>
 </main>
+
+<!-- JS: Lazy-load cho background (hỗ trợ cả CSS variable qua data-bg-var) -->
+<script>
+(function(){
+  const els = document.querySelectorAll('.lazy-bg[data-bg]');
+  if (!els.length) return;
+
+  function reveal(el){
+    const url = el.getAttribute('data-bg');
+    const cssVar = el.getAttribute('data-bg-var');
+    if (!url) return;
+    if (cssVar) {
+      // Lazy cho nền dùng CSS variable: ví dụ --spv-hero-bg
+      el.style.setProperty(cssVar, 'url(' + url + ')');
+    } else {
+      // Lazy cho background-image trực tiếp
+      el.style.backgroundImage = 'url(' + url + ')';
+    }
+    el.removeAttribute('data-bg');
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(reveal);
+    return;
+  }
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if (entry.isIntersecting) {
+        reveal(entry.target);
+        io.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: '300px 0px' });
+
+  els.forEach(el=>io.observe(el));
+})();
+</script>
 
 <?php get_footer(); ?>

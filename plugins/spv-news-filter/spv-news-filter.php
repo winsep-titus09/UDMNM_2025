@@ -21,19 +21,19 @@ add_action('plugins_loaded', function () {
 add_action('wp_enqueue_scripts', function () {
     // CSS nhẹ cho form (bạn có thể đưa sang theme nếu muốn)
     $css = "
-    .spv-news-filterCard{background:#fff;padding:16px}
+    .spv-news-filterCard{background:#F2F9F9;padding:16px}
     .spv-news-filterTitle{font-size:20px;font-weight:600;margin:6px 0 10px}
-    .spv-news-filterForm hr{border:none;border-top:1px solid #e5e7eb;margin:14px 0}
+    .spv-news-filterForm hr{margin:14px 0}
     .spv-filter-dates{display:grid;}
     .spv-filter-dates p{margin:0}
     .spv-news-filterForm select,
     .spv-news-filterForm input[type=date]{width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid #d1d5db;border-radius:12px;line-height:1.25;background:#fff;min-width:0}
     .spv-news-filterForm input[type=date]:focus,
     .spv-news-filterForm select:focus{outline:none;border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.15)}
-    .spv-news-filterForm .button.button-primary{background:#2563eb;color:#fff;border:none;border-radius:10px;padding:10px 14px;font-weight:700;box-shadow:0 1px 0 rgba(0,0,0,.04);cursor:pointer}
+    .spv-news-filterForm .button.button-primary{background:#2563eb;color:#fff;padding:10px 14px;font-weight:700;box-shadow:0 1px 0 rgba(0,0,0,.04);cursor:pointer}
     .spv-news-filterForm .button.button-primary:hover{filter:brightness(.95)}
-    .spv-news-filterForm .spv-filter-reset{color:#2563eb;font-weight:700;text-decoration:none}
-    .spv-news-filterForm .spv-filter-reset:hover{text-decoration:underline}
+    .spv-news-filterForm .spv-filter-reset{color:#124B96;font-weight:700;text-decoration:none}
+    .spv-news-filterForm .spv-filter-reset:hover{color:#26AAE1}
     ";
     wp_register_style('spv-news-filter-inline', false);
     wp_enqueue_style('spv-news-filter-inline');

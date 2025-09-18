@@ -1533,6 +1533,7 @@ a.book-btn {
 @media (max-width: 992px) {
   .about-us-wrapper {
     flex-direction: column;
+    margin: 5px 5px;
   }
   .about-us-buttons {
     flex-direction: row;
@@ -1663,6 +1664,7 @@ a.book-btn {
     border-right: 0;
     padding-right: 0;
     margin-bottom: 12px;
+    min-width: 130px;
   }
   .timeline-content {
     padding: 12px 0 0;
@@ -2489,6 +2491,10 @@ div#achievementsTabs {
   .develop-hero__title {
     letter-spacing: 0;
   }
+  .develop-hero__btn {
+    padding: 14px 22px;
+    gap: 8px;
+  }
 }
 
 /* Ẩn nút mũi tên nếu bạn vẫn render trong HTML */
@@ -3099,9 +3105,7 @@ img.spv-contacts__head-icon {
 
 .news-pagination .page-numbers.prev,
 .news-pagination .page-numbers.next {
-  position: absolute;
   top: 50%;
-  transform: translateY(-50%);
   width: 56px;
   height: 56px;
   border: 2px solid rgba(0, 160, 255, 0.25);
@@ -3450,8 +3454,6 @@ img.spv-contacts__head-icon {
 .spv-news-filter .spv-news-filterCard {
   position: sticky;
   top: 90px;
-  border: 1px solid #ececec;
-  border-radius: 12px;
   padding: 16px;
 }
 .spv-news-filterTitle {
@@ -3584,9 +3586,7 @@ img.spv-contacts__head-icon {
   margin: 8px 0 10px;
 }
 .spv-news-filterCard {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
+  background: #F2F9F9;
   padding: 16px;
 }
 .spv-news-filterForm select,
@@ -3600,9 +3600,13 @@ img.spv-contacts__head-icon {
   font-weight: 600;
 }
 
+a.spv-filter-reset {
+  color: #124B96;
+}
+
 .spv-news-filterForm .button.button-primary {
-  background: #2563eb;
-  color: #fff;
+  background: #F2F9F9;
+  color: #124B96;
   border: none;
   border-radius: 10px;
   padding: 10px 14px;
@@ -3610,7 +3614,8 @@ img.spv-contacts__head-icon {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
 }
 .spv-news-filterForm .button.button-primary:hover {
-  filter: brightness(0.95);
+  background: #F2F9F9;
+  color: #2FADE2;
 }
 
 /* Khung 2 hàng tiêu đề */
@@ -3702,7 +3707,7 @@ body .spv-newsheads {
 /* RWD: co cỡ chữ ở mobile, tránh tràn */
 @media (max-width: 768px) {
   .spv-newshead__text {
-    font-size: 18px;
+    font-size: 15px;
   }
   .spv-newshead__btn {
     padding: 8px 14px;
@@ -4358,7 +4363,7 @@ body .spv-newsheads {
   .drink-variants {
     order: 3;
     width: 100vw;
-    left: 46%;
+    left: 50%;
     transform: translateX(-50%);
     padding: 12px 0 20px;
     margin: 0;

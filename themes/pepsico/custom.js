@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     }
 });
+
 document.addEventListener('DOMContentLoaded', function () {
   if (window.innerWidth <= 991) {
     document.querySelectorAll('.menu-item-has-children > a').forEach(function (a) {
@@ -383,32 +384,6 @@ document.addEventListener('click', function(e){
   });
 })();
 
-
-/**************************************
- * 9) KHÓA BODY SCROLL KHI MENU MOBILE MỞ
- **************************************/
-document.addEventListener('DOMContentLoaded', function(){
-  var menu = document.getElementById('mainMenu');
-  if (!menu) return;
-
-  // Bật/tắt class lên body để khóa/không khóa scroll (CSS sẽ ẩn thanh cuộn)
-  function lockBody(lock){
-    document.body.classList.toggle('menu-open', !!lock);
-  }
-
-  // Trường hợp dùng Bootstrap 5 Collapse: lắng nghe sự kiện mở/đóng
-  if (window.bootstrap && bootstrap.Collapse){
-    menu.addEventListener('shown.bs.collapse', function(){ lockBody(true); });
-    menu.addEventListener('hidden.bs.collapse', function(){ lockBody(false); });
-  } else {
-    // Fallback: quan sát thay đổi class .show trên #mainMenu
-    var obs = new MutationObserver(function(){
-      lockBody(menu.classList.contains('show'));
-    });
-    obs.observe(menu, { attributes:true, attributeFilter:['class'] });
-  }
-});
-
 document.addEventListener('DOMContentLoaded', function(){
   // Bấm vào input date => mở lịch luôn (nếu trình duyệt hỗ trợ showPicker)
   document.querySelectorAll('.spv-news-filterForm input[type="date"]').forEach(function(el){
@@ -479,3 +454,22 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
+// lazy load images
+(function(){
+  const els = document.querySelectorAll('.lazy-bg[data-bg]');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(el => el.style.backgroundImage = `url(${el.dataset.bg})`);
+    return;
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target;
+        el.style.backgroundImage = `url(${el.dataset.bg})`;
+        el.removeAttribute('data-bg');
+        io.unobserve(el);
+      }
+    });
+  }, { rootMargin: '200px 0px' });
+  els.forEach(el => io.observe(el));
+})();

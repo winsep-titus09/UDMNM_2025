@@ -7,3 +7,4 @@ require_once get_template_directory() . '/inc/customizer.php';
 require_once get_template_directory() . '/inc/editor.php';
 require_once get_template_directory() . '/inc/post-archive.php';
 require_once get_template_directory() . '/inc/widget.php';
+require_once get_template_directory() . '/inc/lazy.php';

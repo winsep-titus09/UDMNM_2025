@@ -43,9 +43,22 @@ if (function_exists('get_field')) {
   }
 }
 ?>
-<section class="page-hero" <?php if (!empty($bg)) echo 'style="background-image:url(' . esc_url($bg) . ')"'; ?>>
+<section
+  class="page-hero<?php echo $bg ? ' lazy-bg' : ''; ?>"
+  <?php if ($bg) : ?>
+    data-bg="<?php echo esc_url($bg); ?>"
+  <?php endif; ?>
+>
   <span class="page-hero__overlay" aria-hidden="true"></span>
   <h1 class="page-hero__title"><?php echo esc_html($hero_title); ?></h1>
+
+  <?php if ($bg): ?>
+    <noscript>
+      <style>
+        .page-hero{background-image:url('<?php echo esc_url($bg); ?>')}
+      </style>
+    </noscript>
+  <?php endif; ?>
 </section>
 
 
@@ -53,8 +66,33 @@ if (function_exists('get_field')) {
   <div class="spv-news-archive mt-5">
     <section class="spv-news-list">
       <?php if (have_posts()): ?>
-        <?php while (have_posts()): the_post(); ?>
+        <?php $i = 0; ?>
+        <?php while (have_posts()): the_post(); $i++; ?>
           <article id="post-<?php the_ID(); ?>" <?php post_class('spv-news-item'); ?>>
+
+            <?php if (has_post_thumbnail()): ?>
+              <a class="spv-news-thumb" href="<?php the_permalink(); ?>" aria-label="<?php the_title_attribute(); ?>">
+                <?php
+                // Bài đầu: eager + fetchpriority=high; còn lại: lazy
+                $attrs = [
+                  'class'    => 'spv-news-thumb__img',
+                  'decoding' => 'async',
+                ];
+                if ($i === 1) {
+                  $attrs['loading']       = 'eager';
+                  $attrs['fetchpriority'] = 'high';
+                } else {
+                  $attrs['loading'] = 'lazy';
+                }
+
+                // medium_large có sẵn srcset/sizes, WP tự in width/height
+                echo get_the_post_thumbnail(get_the_ID(), 'medium_large', $attrs);
+                ?>
+              </a>
+            <?php else: ?>
+              <span class="spv-news-thumb spv-news-thumb--placeholder" aria-hidden="true"></span>
+            <?php endif; ?>
+
             <h2 class="spv-news-title">
               <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
             </h2>
@@ -89,6 +127,7 @@ if (function_exists('get_field')) {
         <p class="spv-news-empty"><?php echo esc_html__('Chưa có bài viết.', 'td'); ?></p>
       <?php endif; ?>
     </section>
+
 
     <aside class="spv-news-filter" aria-label="<?php echo esc_attr__('Bộ lọc', 'td'); ?>">
       <div class="spv-news-filter__inner">

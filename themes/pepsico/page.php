@@ -18,9 +18,22 @@ $arrow_icon = "data:image/svg+xml;utf8,%3Csvg display='inline-block' color='inhe
       <?php foreach (['image1','image2'] as $i => $key): ?>
         <?php if (!empty($banner[$key])): ?>
           <div class="slide <?php echo $i === 0 ? 'active' : ''; ?>">
+            <?php
+              // Ảnh đầu: eager + fetchpriority=high (cải thiện LCP)
+              $attrs = [
+                'alt'        => $banner[$key]['alt'] ?? '',
+                'decoding'   => 'async',
+                'sizes'      => '100vw', // banner full width
+              ];
+              if ($i === 0) {
+                $attrs['loading']       = 'eager';
+                $attrs['fetchpriority'] = 'high';
+              } else {
+                $attrs['loading'] = 'lazy';
+              }
+            ?>
             <img src="<?php echo esc_url($banner[$key]['url']); ?>"
-                 alt="<?php echo esc_attr($banner[$key]['alt'] ?? ''); ?>"
-                 loading="lazy" decoding="async">
+                 <?php foreach ($attrs as $k=>$v) echo $v!=='' ? $k.'="'.esc_attr($v).'" ' : ''; ?>>
           </div>
         <?php endif; ?>
       <?php endforeach; ?>
@@ -56,7 +69,11 @@ $arrow_icon = "data:image/svg+xml;utf8,%3Csvg display='inline-block' color='inhe
       <?php if ($i === 3 || $i === 6): // ô chỉ có ảnh ?>
         <?php if (!empty($stats["box{$i}_image"])): ?>
           <div class="stats7-item stats7-item--image box<?php echo (int)$i; ?>">
-            <img class="stats7-photo" src="<?php echo esc_url($stats["box{$i}_image"]['url']); ?>" alt="" loading="lazy" decoding="async">
+            <img class="stats7-photo"
+              src="<?php echo esc_url($stats["box{$i}_image"]['url']); ?>"
+              alt=""
+              loading="lazy" decoding="async"
+              sizes="(min-width:1200px) 25vw, (min-width:768px) 33vw, 50vw">
           </div>
         <?php endif; ?>
       <?php elseif ($i === 4 || $i === 7): // số + tiêu đề + mô tả ?>
@@ -68,7 +85,11 @@ $arrow_icon = "data:image/svg+xml;utf8,%3Csvg display='inline-block' color='inhe
       <?php else: // có icon + nội dung ?>
         <div class="stats7-item <?php echo $i===5 ? 'stats7-item--iconnumber' : 'stats7-item--icon'; ?> box<?php echo (int)$i; ?>">
           <?php if (!empty($stats["box{$i}_icon"])): ?>
-            <img class="stats7-icon" src="<?php echo esc_url($stats["box{$i}_icon"]['url']); ?>" alt="" loading="lazy" decoding="async">
+            <img class="stats7-icon"
+              src="<?php echo esc_url($stats["box{$i}_icon"]['url']); ?>"
+              alt=""
+              loading="lazy" decoding="async"
+              sizes="48px">
           <?php endif; ?>
           <div class="content">
             <div class="stats7-number"><?php echo esc_html($stats["box{$i}_number"] ?? ''); ?></div>
@@ -85,7 +106,7 @@ $arrow_icon = "data:image/svg+xml;utf8,%3Csvg display='inline-block' color='inhe
 <?php if ($content2 = get_field('content2')): ?>
   <?php if (!empty($content2['content2_img'])): ?>
     <div class="acf-img-fog" aria-hidden="true">
-      <img src="<?php echo esc_url($content2['content2_img']['url']); ?>" alt="" class="acf-img-main" loading="lazy" decoding="async">
+      <img src="<?php echo esc_url($content2['content2_img']['url']); ?>" alt="" class="acf-img-main" loading="lazy" decoding="async" sizes="100vw">
       <div class="acf-fog-gradient"></div>
     </div>
   <?php endif; ?>
@@ -124,7 +145,20 @@ $arrow_icon = "data:image/svg+xml;utf8,%3Csvg display='inline-block' color='inhe
           <div class="post-tab-thumb">
             <?php
               if (has_post_thumbnail()) {
-                the_post_thumbnail('large', ['loading'=>'lazy','decoding'=>'async']);
+                static $first_post_thumb = false;
+                $attrs = [
+                  'class'    => 'post-tab-img',
+                  'decoding' => 'async',
+                  'sizes'    => '(min-width:992px) 33vw, (min-width:768px) 50vw, 100vw',
+                ];
+                if (!$first_post_thumb) {
+                  $attrs['loading']       = 'eager';
+                  $attrs['fetchpriority'] = 'high';
+                  $first_post_thumb = true;
+                } else {
+                  $attrs['loading'] = 'lazy';
+                }
+                echo get_the_post_thumbnail(get_the_ID(), 'large', $attrs);
               } else {
                 echo '<span class="thumb-placeholder" aria-hidden="true"></span>';
               }

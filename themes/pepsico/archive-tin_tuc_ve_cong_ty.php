@@ -46,9 +46,22 @@ if (function_exists('get_field')) {
   }
 }
 ?>
-<section class="page-hero" <?php if (!empty($bg)) echo 'style="background-image:url(' . esc_url($bg) . ')"'; ?>>
+<section
+  class="page-hero<?php echo $bg ? ' lazy-bg' : ''; ?>"
+  <?php if ($bg) : ?>
+    data-bg="<?php echo esc_url($bg); ?>"
+  <?php endif; ?>
+>
   <span class="page-hero__overlay" aria-hidden="true"></span>
   <h1 class="page-hero__title"><?php echo esc_html($hero_title); ?></h1>
+
+  <?php if ($bg): ?>
+    <noscript>
+      <style>
+        .page-hero{background-image:url('<?php echo esc_url($bg); ?>')}
+      </style>
+    </noscript>
+  <?php endif; ?>
 </section>
 
 
@@ -56,15 +69,29 @@ if (function_exists('get_field')) {
 
   <?php if (have_posts()): ?>
     <div class="news-grid mt-5">
-      <?php while (have_posts()): the_post(); ?>
+      <?php $i = 0; while (have_posts()): the_post(); $i++; ?>
         <article <?php post_class('news-card'); ?>>
           <a class="news-card__thumb" href="<?php the_permalink(); ?>" aria-label="<?=
             esc_attr(sprintf(__('Xem “%s”', 'pepsico-theme'), get_the_title()))
           ?>">
-            <?php if (has_post_thumbnail()): ?>
-              <?php the_post_thumbnail('large', ['loading' => 'lazy']); ?>
-            <?php else: ?>
-              <div class="news-card__placeholder" aria-hidden="true"></div>
+            <?php if (has_post_thumbnail()):
+              // Ảnh #1: eager + fetchpriority=high; còn lại lazy
+              $attrs = [
+                'class'      => 'news-card__img',
+                'decoding'   => 'async',
+                // sizes giúp trình duyệt chọn srcset hợp lý cho grid 3-2-1 cột
+                'sizes'      => '(min-width: 992px) 33vw, (min-width: 768px) 50vw, 100vw',
+              ];
+              if ($i === 1) {
+                $attrs['loading']       = 'eager';
+                $attrs['fetchpriority'] = 'high';
+              } else {
+                $attrs['loading']       = 'lazy';
+              }
+              // medium_large thường đủ; cần lớn hơn thì dùng 'large'
+              echo get_the_post_thumbnail(get_the_ID(), 'medium_large', $attrs);
+            else: ?>
+              <span class="news-card__placeholder" aria-hidden="true"></span>
             <?php endif; ?>
           </a>
 
@@ -96,5 +123,6 @@ if (function_exists('get_field')) {
   <?php endif; ?>
 
 </main>
+
 
 <?php get_footer(); ?>
