@@ -11,10 +11,8 @@ function pepsico_enqueue_scripts() {
 add_action('wp_enqueue_scripts', 'pepsico_enqueue_scripts');
 
 function add_preload_to_css($html, $handle) {
-    // Danh sách các handle muốn preload
-    $preload_handles = array('custom-css', 'style-css', 'bootstrap-css');
+    $preload_handles = array('custom-css', 'bootstrap-css'); // sửa lại đúng handle của bạn
     if (in_array($handle, $preload_handles)) {
-        // Chuyển link stylesheet thành preload và onload
         $html = str_replace("rel='stylesheet'", "rel='preload' as='style' onload=\"this.rel='stylesheet'\"", $html);
     }
     return $html;
