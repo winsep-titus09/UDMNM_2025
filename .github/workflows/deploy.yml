@@ -1,11 +1,11 @@
-name: Deploy wp-content to VPS
+name: Deploy theme to VPS
 
 on:
   push:
-    branches: [ "main" ]           # đổi nếu bạn dùng branch khác
+    branches: [ "main" ]               # đổi nếu bạn dùng branch khác
     paths:
-      - 'wp-content/**'            # chỉ chạy khi wp-content có thay đổi
-  workflow_dispatch: {}            # cho phép chạy tay từ GitHub Actions
+      - 'themes/**'                    # chỉ chạy khi có thay đổi trong themes
+  workflow_dispatch: {}
 
 jobs:
   deploy:
@@ -23,22 +23,23 @@ jobs:
       - name: Add known_hosts
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.KNOWN_HOSTS }}" >> ~/.ssh/known_hosts || true
-          chmod 600 ~/.ssh/known_hosts || true
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
 
-      - name: Rsync wp-content (exclude uploads/cache)
+      - name: Rsync only themes (with sudo on remote)
         run: |
-          RSYNC_EXCLUDES="--exclude 'uploads' --exclude 'cache' --exclude '.git' --exclude '.github' --exclude 'node_modules'"
-          rsync -az --delete $RSYNC_EXCLUDES \
+          rsync -az --delete \
+            --omit-dir-times --no-perms --no-owner --no-group \
+            --exclude '.git' --exclude '.github' --exclude 'node_modules' \
             -e "ssh -p ${{ secrets.SSH_PORT }}" \
-            wp-content/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.TARGET_DIR }}/wp-content/
+            --rsync-path="sudo rsync" \
+            themes/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.TARGET_DIR }}/wp-content/themes/
 
-      - name: Fix permissions & reload services
+      - name: Fix permissions & reload PHP
         run: |
           ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-          sudo chown -R www-data:www-data /var/www/winsep.id.vn/UDMNM/wp-content
-          sudo find /var/www/winsep.id.vn/UDMNM/wp-content -type d -exec chmod 755 {} \;
-          sudo find /var/www/winsep.id.vn/UDMNM/wp-content -type f -exec chmod 644 {} \;
+          sudo chown -R www-data:www-data /var/www/winsep.id.vn/UDMNM/wp-content/themes
+          sudo find /var/www/winsep.id.vn/UDMNM/wp-content/themes -type d -exec chmod 755 {} \;
+          sudo find /var/www/winsep.id.vn/UDMNM/wp-content/themes -type f -exec chmod 644 {} \;
           sudo systemctl reload php8.1-fpm || true
-          sudo systemctl reload nginx || true
           EOF
