@@ -1223,6 +1223,12 @@ img.stats7-icon {
   letter-spacing: 1px;
 }
 
+.post-tab-title a {
+  color: #26aae1;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
 .post-tab-supplement {
   list-style: none;
   padding: 0;
