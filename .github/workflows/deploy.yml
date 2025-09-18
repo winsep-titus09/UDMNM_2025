@@ -1,0 +1,44 @@
+name: Deploy wp-content to VPS
+
+on:
+  push:
+    branches: [ "main" ]           # đổi nếu bạn dùng branch khác
+    paths:
+      - 'wp-content/**'            # chỉ chạy khi wp-content có thay đổi
+  workflow_dispatch: {}            # cho phép chạy tay từ GitHub Actions
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.KNOWN_HOSTS }}" >> ~/.ssh/known_hosts || true
+          chmod 600 ~/.ssh/known_hosts || true
+
+      - name: Rsync wp-content (exclude uploads/cache)
+        run: |
+          RSYNC_EXCLUDES="--exclude 'uploads' --exclude 'cache' --exclude '.git' --exclude '.github' --exclude 'node_modules'"
+          rsync -az --delete $RSYNC_EXCLUDES \
+            -e "ssh -p ${{ secrets.SSH_PORT }}" \
+            wp-content/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.TARGET_DIR }}/wp-content/
+
+      - name: Fix permissions & reload services
+        run: |
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+          sudo chown -R www-data:www-data /var/www/winsep.id.vn/UDMNM/wp-content
+          sudo find /var/www/winsep.id.vn/UDMNM/wp-content -type d -exec chmod 755 {} \;
+          sudo find /var/www/winsep.id.vn/UDMNM/wp-content -type f -exec chmod 644 {} \;
+          sudo systemctl reload php8.1-fpm || true
+          sudo systemctl reload nginx || true
+          EOF
