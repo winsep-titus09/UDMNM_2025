@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font (tuỳ chọn) -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap" rel="stylesheet">
+  <?php if ( ! current_theme_supports('title-tag') ) : ?>
+    <title><?php echo esc_html( wp_get_document_title() ); ?></title>
+  <?php endif; ?>
   <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
