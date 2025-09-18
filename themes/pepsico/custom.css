@@ -65,6 +65,11 @@
 .footer-widget li {
   margin-top: 10px;
 }
+
+.footer-widget a{
+  color: #F4F4FA !important;
+}
+
 .footer-widget a,
 .footer-widget .wp-block-navigation-item__content {
   color: var(--muted);
@@ -86,6 +91,10 @@
   border-top: 1px solid var(--line);
   padding-block: 10px;
   margin-top: 24px;
+}
+
+a.footer-bottom {
+  color: #F4F4FA;
 }
 
 h5.footer-bottom-title {
