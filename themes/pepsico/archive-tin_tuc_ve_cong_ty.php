@@ -32,11 +32,12 @@ if (function_exists('get_field')) {
   // Nếu dùng Polylang và muốn đúng trang theo ngôn ngữ hiện tại:
   if ($news_page && function_exists('pll_get_post')) {
     $translated_id = pll_get_post($news_page->ID);
-    if ($translated_id) $news_page = get_post($translated_id);
+    if ($translated_id)
+      $news_page = get_post($translated_id);
   }
 
-  $target_id  = $news_page ? $news_page->ID : 0;
-  $page_con   = $target_id ? get_field('page_con', $target_id) : null;
+  $target_id = $news_page ? $news_page->ID : 0;
+  $page_con = $target_id ? get_field('page_con', $target_id) : null;
 
   if (is_array($page_con) && !empty($page_con['tin_tuc_ve_cong_ty'])) {
     $hero_title = (string) $page_con['tin_tuc_ve_cong_ty'];
@@ -46,47 +47,46 @@ if (function_exists('get_field')) {
   }
 }
 ?>
-<section
-  class="page-hero<?php echo $bg ? ' lazy-bg' : ''; ?>"
-  <?php if ($bg) : ?>
-    data-bg="<?php echo esc_url($bg); ?>"
-  <?php endif; ?>
->
+<section class="page-hero<?php echo $bg ? ' lazy-bg' : ''; ?>" <?php if ($bg): ?> data-bg="<?php echo esc_url($bg); ?>"
+  <?php endif; ?>>
   <span class="page-hero__overlay" aria-hidden="true"></span>
   <h1 class="page-hero__title"><?php echo esc_html($hero_title); ?></h1>
 
   <?php if ($bg): ?>
     <noscript>
       <style>
-        .page-hero{background-image:url('<?php echo esc_url($bg); ?>')}
+        .page-hero {
+          background-image: url('<?php echo esc_url($bg); ?>')
+        }
       </style>
     </noscript>
   <?php endif; ?>
 </section>
 
-
 <main class="container archive-company-news">
-
   <?php if (have_posts()): ?>
     <div class="news-grid mt-5">
-      <?php $i = 0; while (have_posts()): the_post(); $i++; ?>
+      <?php $i = 0;
+      while (have_posts()):
+        the_post();
+        $i++; ?>
         <article <?php post_class('news-card'); ?>>
           <a class="news-card__thumb" href="<?php the_permalink(); ?>" aria-label="<?=
-            esc_attr(sprintf(__('Xem “%s”', 'pepsico-theme'), get_the_title()))
-          ?>">
+              esc_attr(sprintf(__('Xem “%s”', 'pepsico-theme'), get_the_title()))
+              ?>">
             <?php if (has_post_thumbnail()):
               // Ảnh #1: eager + fetchpriority=high; còn lại lazy
               $attrs = [
-                'class'      => 'news-card__img',
-                'decoding'   => 'async',
+                'class' => 'news-card__img',
+                'decoding' => 'async',
                 // sizes giúp trình duyệt chọn srcset hợp lý cho grid 3-2-1 cột
-                'sizes'      => '(min-width: 992px) 33vw, (min-width: 768px) 50vw, 100vw',
+                'sizes' => '(min-width: 992px) 33vw, (min-width: 768px) 50vw, 100vw',
               ];
               if ($i === 1) {
-                $attrs['loading']       = 'eager';
+                $attrs['loading'] = 'eager';
                 $attrs['fetchpriority'] = 'high';
               } else {
-                $attrs['loading']       = 'lazy';
+                $attrs['loading'] = 'lazy';
               }
               // medium_large thường đủ; cần lớn hơn thì dùng 'large'
               echo get_the_post_thumbnail(get_the_ID(), 'medium_large', $attrs);
@@ -111,7 +111,7 @@ if (function_exists('get_field')) {
     <nav class="news-pagination" aria-label="<?php echo esc_attr__('Phân trang', 'pepsico-theme'); ?>">
       <?php
       echo paginate_links([
-        'total'     => $GLOBALS['wp_query']->max_num_pages,
+        'total' => $GLOBALS['wp_query']->max_num_pages,
         'prev_text' => esc_html__('« Trước', 'pepsico-theme'),
         'next_text' => esc_html__('Sau »', 'pepsico-theme'),
       ]);
@@ -121,7 +121,6 @@ if (function_exists('get_field')) {
   <?php else: ?>
     <p><?php echo esc_html__('Chưa có bài viết.', 'pepsico-theme'); ?></p>
   <?php endif; ?>
-
 </main>
 
 

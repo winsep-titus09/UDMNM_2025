@@ -29,11 +29,12 @@ if (function_exists('get_field')) {
   // Nếu dùng Polylang và muốn đúng trang theo ngôn ngữ hiện tại:
   if ($news_page && function_exists('pll_get_post')) {
     $translated_id = pll_get_post($news_page->ID);
-    if ($translated_id) $news_page = get_post($translated_id);
+    if ($translated_id)
+      $news_page = get_post($translated_id);
   }
 
-  $target_id  = $news_page ? $news_page->ID : 0;
-  $page_con   = $target_id ? get_field('page_con', $target_id) : null;
+  $target_id = $news_page ? $news_page->ID : 0;
+  $page_con = $target_id ? get_field('page_con', $target_id) : null;
 
   if (is_array($page_con) && !empty($page_con['thong_cao_bao_chi'])) {
     $hero_title = (string) $page_con['thong_cao_bao_chi'];
@@ -43,10 +44,7 @@ if (function_exists('get_field')) {
   }
 }
 ?>
-<section
-  class="page-hero<?php echo $bg ? ' lazy-bg' : ''; ?>"
-  <?php if ($bg) : ?>
-  data-bg="<?php echo esc_url($bg); ?>"
+<section class="page-hero<?php echo $bg ? ' lazy-bg' : ''; ?>" <?php if ($bg): ?> data-bg="<?php echo esc_url($bg); ?>"
   <?php endif; ?>>
   <span class="page-hero__overlay" aria-hidden="true"></span>
   <h1 class="page-hero__title"><?php echo esc_html($hero_title); ?></h1>
@@ -67,7 +65,8 @@ if (function_exists('get_field')) {
     <section class="spv-news-list">
       <?php if (have_posts()): ?>
         <?php $i = 0; ?>
-        <?php while (have_posts()): the_post();
+        <?php while (have_posts()):
+          the_post();
           $i++; ?>
           <article id="post-<?php the_ID(); ?>" <?php post_class('spv-news-item'); ?>>
 
@@ -76,11 +75,11 @@ if (function_exists('get_field')) {
                 <?php
                 // Bài đầu: eager + fetchpriority=high; còn lại: lazy
                 $attrs = [
-                  'class'    => 'spv-news-thumb__img',
+                  'class' => 'spv-news-thumb__img',
                   'decoding' => 'async',
                 ];
                 if ($i === 1) {
-                  $attrs['loading']       = 'eager';
+                  $attrs['loading'] = 'eager';
                   $attrs['fetchpriority'] = 'high';
                 } else {
                   $attrs['loading'] = 'lazy';
@@ -101,7 +100,8 @@ if (function_exists('get_field')) {
             <p class="spv-news-excerpt">
               <?php
               $ex = get_the_excerpt();
-              if (!$ex) $ex = wp_trim_words(wp_strip_all_tags(get_the_content()), 50);
+              if (!$ex)
+                $ex = wp_trim_words(wp_strip_all_tags(get_the_content()), 50);
               echo esc_html($ex);
               ?>
             </p>
@@ -117,7 +117,7 @@ if (function_exists('get_field')) {
         <nav class="spv-news-pagination" aria-label="<?php echo esc_attr__('Phân trang', 'td'); ?>">
           <?php
           echo paginate_links([
-            'total'     => $GLOBALS['wp_query']->max_num_pages,
+            'total' => $GLOBALS['wp_query']->max_num_pages,
             'prev_text' => esc_html__('« Trước', 'td'),
             'next_text' => esc_html__('Sau »', 'td'),
           ]);
@@ -128,8 +128,7 @@ if (function_exists('get_field')) {
         <p class="spv-news-empty"><?php echo esc_html__('Chưa có bài viết.', 'td'); ?></p>
       <?php endif; ?>
     </section>
-
-
+    
     <aside class="spv-news-filter" aria-label="<?php echo esc_attr__('Bộ lọc', 'td'); ?>">
       <div class="spv-news-filter__inner">
         <?php if (is_active_sidebar('news-filter')): ?>
