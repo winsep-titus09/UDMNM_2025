@@ -201,7 +201,6 @@ $allowed_protocols = array_merge(wp_allowed_protocols(), ['data']);
           <?php endforeach; ?>
         </div>
       <?php endif; ?>
-
     </section>
   </div>
 <?php endif; ?>

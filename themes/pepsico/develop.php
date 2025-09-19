@@ -210,42 +210,4 @@ if (is_array($group)) {
   </div>
 </main>
 
-<!-- JS: Lazy-load cho background (hỗ trợ cả CSS variable qua data-bg-var) -->
-<script>
-  (function () {
-    const els = document.querySelectorAll('.lazy-bg[data-bg]');
-    if (!els.length) return;
-
-    function reveal(el) {
-      const url = el.getAttribute('data-bg');
-      const cssVar = el.getAttribute('data-bg-var');
-      if (!url) return;
-      if (cssVar) {
-        // Lazy cho nền dùng CSS variable: ví dụ --spv-hero-bg
-        el.style.setProperty(cssVar, 'url(' + url + ')');
-      } else {
-        // Lazy cho background-image trực tiếp
-        el.style.backgroundImage = 'url(' + url + ')';
-      }
-      el.removeAttribute('data-bg');
-    }
-
-    if (!('IntersectionObserver' in window)) {
-      els.forEach(reveal);
-      return;
-    }
-
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          reveal(entry.target);
-          io.unobserve(entry.target);
-        }
-      });
-    }, { rootMargin: '300px 0px' });
-
-    els.forEach(el => io.observe(el));
-  })();
-</script>
-
 <?php get_footer(); ?>

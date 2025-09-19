@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 })();
 
-
 /**************************************
  * 2) HOVER MỞ/ĐÓNG DROPDOWN CHO DESKTOP
  **************************************/
@@ -118,7 +117,6 @@ document.querySelectorAll('.menu-item-has-children').forEach(function (item) {
     });
   }
 });
-
 
 /**************************************
  * 3) CLICK MŨI TÊN TRONG MOBILE ĐỂ MỞ/ĐÓNG SUBMENU
@@ -158,7 +156,6 @@ document.addEventListener('click', function (e) {
     el.classList.toggle('active', el.dataset.index === idx);
   });
 });
-
 
 /**************************************
  * 6) ACHIEVEMENTS TABS + CAROUSEL NGANG KÉO/CLICK
@@ -230,7 +227,6 @@ document.addEventListener('click', function (e) {
   });
 })();
 
-
 /**************************************
  * 7) HOME-DRINK CAROUSEL: AUTOSCROLL VÔ HẠN
  **************************************/
@@ -239,7 +235,7 @@ document.addEventListener('click', function (e) {
     const track = wrap.querySelector('.home-drink-track');
     if (!track) return;
 
-    const SPEED = 0.6; // px mỗi frame (thấp = chậm, cao = nhanh)
+    const SPEED = 0.3; // px mỗi frame (thấp = chậm, cao = nhanh)
     const gap = () => parseFloat(getComputedStyle(track).gap || 0);
     let GAP = gap();
 
@@ -283,7 +279,6 @@ document.addEventListener('click', function (e) {
     start(); // bắt đầu chạy
   });
 })();
-
 
 /**************************************
  * 8) SUSTAIN SECTION: INFINITE SCROLLER 3 DẢI
@@ -442,9 +437,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-
 // slide cho trang san phẩm (single-pepsico.php)
-
 document.addEventListener('DOMContentLoaded', function () {
   // Mỗi section .drink-variants là 1 slider độc lập
   document.querySelectorAll('.drink-variants').forEach(function (wrap) {
@@ -520,3 +513,4 @@ document.addEventListener('DOMContentLoaded', function () {
   }, { rootMargin: '200px 0px' });
   els.forEach(el => io.observe(el));
 })();
+

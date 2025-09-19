@@ -59,5 +59,4 @@ add_action('widgets_init', function () {
     'before_title' => '<h3 class="spv-news-filterTitle">',
     'after_title' => '</h3>',
   ]);
-
 });

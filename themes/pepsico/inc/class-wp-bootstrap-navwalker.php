@@ -4,7 +4,6 @@
  */
 class Bootstrap_5_WP_Nav_Menu_Walker extends Walker_Nav_Menu
 {
-
     // <ul> cấp con
     public function start_lvl(&$output, $depth = 0, $args = null)
     {

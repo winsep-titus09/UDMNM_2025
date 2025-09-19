@@ -127,7 +127,6 @@ $bottle_html = $bottle_url
 
     <div class="drink-hero__bottleWrap"><?= $bottle_html ?></div>
 
-
     <?php if ($slides): ?>
       <section class="drink-variants" aria-label="Các phiên bản / hương vị">
         <button class="dv-nav prev" type="button" aria-label="Trước">
@@ -153,8 +152,6 @@ $bottle_html = $bottle_url
       </section>
     <?php endif; ?>
   </section>
-
 </main>
-
 
 <?php get_footer(); ?>
