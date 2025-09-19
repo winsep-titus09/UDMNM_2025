@@ -48,6 +48,7 @@
 
       .navbar-nav li, .menu-item-has-children{ position:relative; }
 
+      .navbar-nav li { margin:0 8px; }
       /* Link color + hover */
       .navbar-nav > li > a,
       .menu-item > a,
@@ -138,7 +139,7 @@
         .navbar-nav .sub-menu > li{ border-bottom:1px solid #e6eaf0; width:100%; }
         .navbar-nav .sub-menu > li > a,
         .navbar-nav .sub-menu .sub-menu > li > a{
-          display:block; width:100%; padding:20px 10px; /* giống cha */
+          display:block; width:100%; padding:20px 0px; /* giống cha */
           font-size:21px; font-weight:500; color:#212121; border-radius:0;
         }
       }
