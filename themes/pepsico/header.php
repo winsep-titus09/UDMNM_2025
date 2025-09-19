@@ -269,7 +269,6 @@
         <!-- Offcanvas Mobile Menu -->
         <div class="offcanvas offcanvas-end d-lg-none" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
           <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="mobileMenuLabel"><?php bloginfo('name'); ?></h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="<?php echo esc_attr__('Đóng', 'pepsico-theme'); ?>"></button>
           </div>
           <div class="offcanvas-body">
