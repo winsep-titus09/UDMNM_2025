@@ -89,7 +89,7 @@
   justify-content: space-between;
   gap: 10px;
   border-top: 1px solid var(--line);
-  padding-block: 10px;
+  padding-block: 9px;
   margin-top: 24px;
 }
 
