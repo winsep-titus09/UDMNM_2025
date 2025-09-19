@@ -42,6 +42,50 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
+(function () {
+  document.addEventListener('DOMContentLoaded', function () {
+    var offcanvas = document.getElementById('mobileMenu');
+    if (!offcanvas) return;
+
+    var nav = offcanvas.querySelector('.offcanvas-body .navbar-nav');
+    if (!nav) return;
+
+    // i18n từ PHP (nếu có)
+    var ariaLabel = (window.pepsicoMenu && window.pepsicoMenu.ariaLabel) || 'Mở/đóng menu con';
+
+    // Chỉ chọn mục cha cấp 1 (trực tiếp dưới .navbar-nav)
+    nav.querySelectorAll(':scope > li.menu-item-has-children').forEach(function (li) {
+      // Tạo nút toggle ở bên phải
+      var toggleBtn = document.createElement('button');
+      toggleBtn.className = 'submenu-toggle';
+      toggleBtn.type = 'button';
+      toggleBtn.setAttribute('aria-label', ariaLabel);
+      toggleBtn.setAttribute('aria-expanded', 'false');
+
+      // Chèn nút
+      li.appendChild(toggleBtn);
+
+      toggleBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var isOpen = li.classList.toggle('is-open');
+        toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+    });
+
+    // Khi offcanvas đóng, thu gọn tất cả submenu
+    offcanvas.addEventListener('hidden.bs.offcanvas', function () {
+      offcanvas.querySelectorAll('li.menu-item-has-children.is-open').forEach(function (li) {
+        li.classList.remove('is-open');
+      });
+      offcanvas.querySelectorAll('.submenu-toggle[aria-expanded="true"]').forEach(function (btn) {
+        btn.setAttribute('aria-expanded', 'false');
+      });
+    });
+  });
+})();
+
+
 /**************************************
  * 2) HOVER MỞ/ĐÓNG DROPDOWN CHO DESKTOP
  **************************************/
