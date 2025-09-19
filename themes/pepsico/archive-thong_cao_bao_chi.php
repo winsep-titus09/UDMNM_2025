@@ -46,28 +46,29 @@ if (function_exists('get_field')) {
 <section
   class="page-hero<?php echo $bg ? ' lazy-bg' : ''; ?>"
   <?php if ($bg) : ?>
-    data-bg="<?php echo esc_url($bg); ?>"
-  <?php endif; ?>
->
+  data-bg="<?php echo esc_url($bg); ?>"
+  <?php endif; ?>>
   <span class="page-hero__overlay" aria-hidden="true"></span>
   <h1 class="page-hero__title"><?php echo esc_html($hero_title); ?></h1>
 
   <?php if ($bg): ?>
     <noscript>
       <style>
-        .page-hero{background-image:url('<?php echo esc_url($bg); ?>')}
+        .page-hero {
+          background-image: url('<?php echo esc_url($bg); ?>')
+        }
       </style>
     </noscript>
   <?php endif; ?>
 </section>
-
 
 <main class="container archive-company-news">
   <div class="spv-news-archive mt-5">
     <section class="spv-news-list">
       <?php if (have_posts()): ?>
         <?php $i = 0; ?>
-        <?php while (have_posts()): the_post(); $i++; ?>
+        <?php while (have_posts()): the_post();
+          $i++; ?>
           <article id="post-<?php the_ID(); ?>" <?php post_class('spv-news-item'); ?>>
 
             <?php if (has_post_thumbnail()): ?>
@@ -100,14 +101,14 @@ if (function_exists('get_field')) {
             <p class="spv-news-excerpt">
               <?php
               $ex = get_the_excerpt();
-              if (!$ex) $ex = wp_trim_words( wp_strip_all_tags(get_the_content()), 50 );
+              if (!$ex) $ex = wp_trim_words(wp_strip_all_tags(get_the_content()), 50);
               echo esc_html($ex);
               ?>
             </p>
 
             <div class="spv-news-meta">
               <span class="spv-news-date">
-                <?php echo esc_html( get_the_date( get_option('date_format') ) ); ?>
+                <?php echo esc_html(get_the_date(get_option('date_format'))); ?>
               </span>
             </div>
           </article>
