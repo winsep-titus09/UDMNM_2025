@@ -70,7 +70,7 @@
       align-items: center !important;
       width: auto;
       font-weight: 500;
-      gap: 30px;
+      gap: 10px;
       font-size: 16px;
       letter-spacing: 0.02em;
       list-style: none;
@@ -138,7 +138,8 @@
     .menu-item-has-children .sub-menu li,
     .navbar-nav .sub-menu li {
       display: block;
-      padding: 8px 15px;
+      padding: 20px 0px;
+      border-bottom: 1px solid #e6eaf0;
     }
 
     .menu-item-has-children .sub-menu li a,
@@ -215,7 +216,6 @@
         border-radius: 12px;
         box-shadow: 0 6px 24px -8px rgba(0, 0, 0, 0.12);
         margin: 0 0 14px 0;
-        padding: 8px 0;
         animation: dropDownFadeIn 0.22s;
         position: static;
       }
@@ -223,14 +223,12 @@
         display: block;
       }
       .navbar-nav .sub-menu li {
-        padding: 0 24px;
         border: none;
       }
       .navbar-nav .sub-menu li a {
         font-size: 18px;
         color: #222;
         font-weight: 500;
-        padding: 12px 0;
         display: block;
         border-radius: 8px;
       }
@@ -270,6 +268,11 @@
       }
       nav.navbar.navbar-expand-lg.navbar-light {
         margin: 0;
+      }
+      .menu-item-has-children .sub-menu li,
+      .navbar-nav .sub-menu li {
+        display: block;
+        border-bottom: 1px solid #e6eaf0;
       }
     }
 
@@ -343,6 +346,55 @@
         margin: 10px 10px !important;
       }
     }
+    /* ========= MOBILE: flatten submenu & hide carets ========= */
+@media (max-width: 991.98px) {
+
+  /* 1) Ẩn mọi mũi tên/caret */
+  .menu-item-has-children > a::after,
+  .dropdown-toggle::after,
+  .mobile-menu-arrow,
+  .menu-item-has-children > a > .menu-caret,
+  .menu-item-has-children > a > .arrow,
+  .menu-item-has-children > a > svg {
+    display: none !important;
+    content: none !important;
+  }
+
+  /* 2) Submenu luôn hiện & đặt tĩnh (không box, không bóng) */
+  .navbar-nav .menu-item-has-children > .sub-menu {
+    display: block !important;
+    position: static !important;
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  .navbar-nav > li > a,
+  .navbar-nav .sub-menu > li > a {
+    display: block;
+    width: 100%;
+    font-size: 18px;     /* cùng cỡ với mục cha */
+    font-weight: 500;
+    color: #212121;
+    text-decoration: none;
+  }
+
+  /* Bỏ mọi thụt lề/định dạng cấp sâu */
+  .navbar-nav .sub-menu > li > a,
+  .navbar-nav .sub-menu .sub-menu > li > a {
+    padding-left: 0 !important;
+  }
+  .navbar-nav .sub-menu .sub-menu {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
     .banner-slider {
       position: relative;
       width: 100%;

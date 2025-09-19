@@ -679,7 +679,7 @@ img.stats7-icon {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   margin: 0 auto;
-  margin-top: 100px;
+  margin-top: 80px;
   /* Không bo góc dưới */
 }
 
@@ -721,7 +721,7 @@ img.stats7-icon {
 .content2-group h2 {
   font-size: 44px; /* nhỏ hơn */
   font-weight: 800;
-  line-height: 1.05; /* chữ gần nhau hơn */
+  line-height: 1.45; /* chữ gần nhau hơn */
   text-align: center;
   background: linear-gradient(90deg, #7dc8b3 0%, #54b3c9 100%);
   -webkit-background-clip: text;
@@ -1868,7 +1868,7 @@ div#achievementsTabs {
   font-weight: 700;
   letter-spacing: 0.03em;
   line-height: 1.35;
-  font-size: clamp(20px, 4.5vw, 45px);
+  font-size: clamp(10px, 4.5vw, 45px);
   white-space: pre-line; /* giữ xuống dòng từ textarea */
 }
 
@@ -4239,7 +4239,7 @@ body .spv-newsheads {
   top: 40%;
   transform: translateY(-50%);
   width: 52px;                 /* chỗ cho hiệu ứng chồng */
-  z-index: 9999;
+  z-index: 9998;
 }
 
 /* Nút VUÔNG, nền trắng, chữ xanh */
