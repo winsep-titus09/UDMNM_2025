@@ -79,28 +79,28 @@ $bottle_html = $bottle_url
 ?>
 
 <main class="drink-page">
-  <section class="drink-hero" aria-label="Giới thiệu sản phẩm">
-    <?php if ($hero_bg_url): ?>
-      <span class="drink-hero__bgMain" aria-hidden="true"
-        style="background-image:url('<?= esc_url($hero_bg_url) ?>');"></span>
-    <?php endif; ?>
+    <section class="drink-hero" aria-label="Giới thiệu sản phẩm">
+        <?php if ($hero_bg_url): ?>
+        <span class="drink-hero__bgMain" aria-hidden="true"
+            style="background-image:url('<?= esc_url($hero_bg_url) ?>');"></span>
+        <?php endif; ?>
 
-    <?php if ($small_bg_url): ?>
-      <span class="drink-hero__bgSmall" aria-hidden="true"
-        style="background-image:url('<?= esc_url($small_bg_url) ?>');"></span>
-    <?php endif; ?>
+        <?php if ($small_bg_url): ?>
+        <span class="drink-hero__bgSmall" aria-hidden="true"
+            style="background-image:url('<?= esc_url($small_bg_url) ?>');"></span>
+        <?php endif; ?>
 
-    <div class="drink-hero__left">
-      <h1 class="drink-hero__title">
-        <?= wp_kses($title_show, ['br' => []]) ?>
-      </h1>
-      <?php if ($desc): ?>
-        <p class="drink-hero__desc"><?= wp_kses_post($desc) ?></p><?php endif; ?>
+        <div class="drink-hero__left">
+            <h1 class="drink-hero__title">
+                <?= wp_kses($title_show, ['br' => []]) ?>
+            </h1>
+            <?php if ($desc): ?>
+            <p class="drink-hero__desc"><?= wp_kses_post($desc) ?></p><?php endif; ?>
 
-      <?php if ($socials): ?>
-        <nav class="drink-hero__socials icons-only" aria-label="Nền tảng">
-          <div class="social-card">
-            <?php foreach ($socials as $s):
+            <?php if ($socials): ?>
+            <nav class="drink-hero__socials icons-only" aria-label="Nền tảng">
+                <div class="social-card">
+                    <?php foreach ($socials as $s):
               $host = parse_url($s['link'], PHP_URL_HOST) ?: '';
               // đoán tên mạng để alt/aria chuẩn hơn
               $brand = 'Social';
@@ -113,45 +113,46 @@ $bottle_html = $bottle_url
               elseif (stripos($host, 'tiktok') !== false)
                 $brand = 'TikTok';
               ?>
-              <a class="social-icon" href="<?= esc_url($s['link']) ?>" target="_blank" rel="noopener"
-                aria-label="<?= esc_attr($brand) ?>">
-                <?php if ($s['icon']): ?>
-                  <img src="<?= esc_url($s['icon']) ?>" alt="<?= esc_attr($brand) ?>">
-                <?php endif; ?>
-              </a>
-            <?php endforeach; ?>
-          </div>
-        </nav>
-      <?php endif; ?>
-    </div>
-
-    <div class="drink-hero__bottleWrap"><?= $bottle_html ?></div>
-
-    <?php if ($slides): ?>
-      <section class="drink-variants" aria-label="Các phiên bản / hương vị">
-        <button class="dv-nav prev" type="button" aria-label="Trước">
-          &lsaquo;
-        </button>
-
-        <ul class="dv-stage" id="dvStage">
-          <?php foreach ($slides as $k => $it): ?>
-            <li class="dv-item" data-idx="<?= $k ?>">
-              <img src="<?= esc_url($it['img']) ?>" alt="<?= esc_attr(wp_strip_all_tags($it['cap'] ?: 'Variant')) ?>">
-              <?php if (!empty($it['cap'])): ?>
-                <div class="dv-cap">
-                  <?= wp_kses($it['cap'], ['br' => []]) /* cho phép <br> nếu bạn gõ trong ACF */ ?>
+                    <a class="social-icon" href="<?= esc_url($s['link']) ?>" target="_blank" rel="noopener"
+                        aria-label="<?= esc_attr($brand) ?>">
+                        <?php if ($s['icon']): ?>
+                        <img src="<?= esc_url($s['icon']) ?>" alt="<?= esc_attr($brand) ?>">
+                        <?php endif; ?>
+                    </a>
+                    <?php endforeach; ?>
                 </div>
-              <?php endif; ?>
-            </li>
-          <?php endforeach; ?>
-        </ul>
+            </nav>
+            <?php endif; ?>
+        </div>
 
-        <button class="dv-nav next" type="button" aria-label="Sau">
-          &rsaquo;
-        </button>
-      </section>
-    <?php endif; ?>
-  </section>
+        <div class="drink-hero__bottleWrap"><?= $bottle_html ?></div>
+
+        <?php if ($slides): ?>
+        <section class="drink-variants" aria-label="Các phiên bản / hương vị">
+            <button class="dv-nav prev" type="button" aria-label="Trước">
+                &lsaquo;
+            </button>
+
+            <ul class="dv-stage" id="dvStage">
+                <?php foreach ($slides as $k => $it): ?>
+                <li class="dv-item" data-idx="<?= $k ?>">
+                    <img src="<?= esc_url($it['img']) ?>"
+                        alt="<?= esc_attr(wp_strip_all_tags($it['cap'] ?: 'Variant')) ?>">
+                    <?php if (!empty($it['cap'])): ?>
+                    <div class="dv-cap">
+                        <?= wp_kses($it['cap'], ['br' => []]) /* cho phép <br> nếu bạn gõ trong ACF */ ?>
+                    </div>
+                    <?php endif; ?>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+
+            <button class="dv-nav next" type="button" aria-label="Sau">
+                &rsaquo;
+            </button>
+        </section>
+        <?php endif; ?>
+    </section>
 </main>
 
 <?php get_footer(); ?>

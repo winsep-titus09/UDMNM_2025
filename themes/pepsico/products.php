@@ -21,31 +21,31 @@ $drinks_query = new WP_Query([
 ]);
 
 if ($drinks_query->have_posts()): ?>
-  <div class="container">
+<div class="container">
     <div class="home-drink-carousel" role="region" aria-label="<?=
       esc_attr__('Băng chuyền sản phẩm', 'pepsico-theme')
       ?>">
-      <div class="home-drink-track">
-        <?php while ($drinks_query->have_posts()):
+        <div class="home-drink-track">
+            <?php while ($drinks_query->have_posts()):
           $drinks_query->the_post(); ?>
-          <div class="drink-item">
-            <a href="<?php the_permalink(); ?>" aria-label="<?=
+            <div class="drink-item">
+                <a href="<?php the_permalink(); ?>" aria-label="<?=
                 esc_attr(sprintf(__('Xem “%s”', 'pepsico-theme'), get_the_title()))
                 ?>">
-              <?php
+                    <?php
               if (has_post_thumbnail()) {
                 the_post_thumbnail('medium', ['loading' => 'lazy', 'decoding' => 'async']);
               } else {
                 echo '<span class="drink-thumb-ph" aria-hidden="true"></span>';
               }
               ?>
-            </a>
-          </div>
-        <?php endwhile; ?>
-      </div>
+                </a>
+            </div>
+            <?php endwhile; ?>
+        </div>
     </div>
-  </div>
-  <?php
+</div>
+<?php
 else:
   // Fallback khi chưa có bài “pepsico”
   echo '<div class="container"><p class="spv-empty">' .
@@ -63,17 +63,17 @@ $body = (string) ($brand['brand_body'] ?? '');
 ?>
 
 <?php if ($title || $body): ?>
-  <section class="brand-hero" aria-label="<?=
+<section class="brand-hero" aria-label="<?=
     esc_attr__('Giới thiệu thương hiệu', 'pepsico-theme')
     ?>">
     <?php if ($title): ?>
-      <h2 class="brand-hero__title"><?php echo esc_html($title); ?></h2>
+    <h2 class="brand-hero__title"><?php echo esc_html($title); ?></h2>
     <?php endif; ?>
 
     <?php if ($body): ?>
-      <div class="brand-hero__desc"><?php echo wp_kses_post($body); ?></div>
+    <div class="brand-hero__desc"><?php echo wp_kses_post($body); ?></div>
     <?php endif; ?>
-  </section>
+</section>
 <?php endif; ?>
 
 <?php get_footer(); ?>

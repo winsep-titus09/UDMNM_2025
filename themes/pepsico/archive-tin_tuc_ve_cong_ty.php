@@ -48,33 +48,33 @@ if (function_exists('get_field')) {
 }
 ?>
 <section class="page-hero<?php echo $bg ? ' lazy-bg' : ''; ?>" <?php if ($bg): ?> data-bg="<?php echo esc_url($bg); ?>"
-  <?php endif; ?>>
-  <span class="page-hero__overlay" aria-hidden="true"></span>
-  <h1 class="page-hero__title"><?php echo esc_html($hero_title); ?></h1>
+    <?php endif; ?>>
+    <span class="page-hero__overlay" aria-hidden="true"></span>
+    <h1 class="page-hero__title"><?php echo esc_html($hero_title); ?></h1>
 
-  <?php if ($bg): ?>
+    <?php if ($bg): ?>
     <noscript>
-      <style>
+        <style>
         .page-hero {
-          background-image: url('<?php echo esc_url($bg); ?>')
+            background-image: url('<?php echo esc_url($bg); ?>')
         }
-      </style>
+        </style>
     </noscript>
-  <?php endif; ?>
+    <?php endif; ?>
 </section>
 
 <main class="container archive-company-news">
-  <?php if (have_posts()): ?>
+    <?php if (have_posts()): ?>
     <div class="news-grid mt-5">
-      <?php $i = 0;
+        <?php $i = 0;
       while (have_posts()):
         the_post();
         $i++; ?>
         <article <?php post_class('news-card'); ?>>
-          <a class="news-card__thumb" href="<?php the_permalink(); ?>" aria-label="<?=
+            <a class="news-card__thumb" href="<?php the_permalink(); ?>" aria-label="<?=
               esc_attr(sprintf(__('Xem “%s”', 'pepsico-theme'), get_the_title()))
               ?>">
-            <?php if (has_post_thumbnail()):
+                <?php if (has_post_thumbnail()):
               // Ảnh #1: eager + fetchpriority=high; còn lại lazy
               $attrs = [
                 'class' => 'news-card__img',
@@ -91,25 +91,25 @@ if (function_exists('get_field')) {
               // medium_large thường đủ; cần lớn hơn thì dùng 'large'
               echo get_the_post_thumbnail(get_the_ID(), 'medium_large', $attrs);
             else: ?>
-              <span class="news-card__placeholder" aria-hidden="true"></span>
-            <?php endif; ?>
-          </a>
+                <span class="news-card__placeholder" aria-hidden="true"></span>
+                <?php endif; ?>
+            </a>
 
-          <h2 class="news-card__title">
-            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-          </h2>
+            <h2 class="news-card__title">
+                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+            </h2>
 
-          <div class="news-card__meta">
-            <span class="news-card__date">
-              <?php echo esc_html(get_the_date(get_option('date_format'))); ?>
-            </span>
-          </div>
+            <div class="news-card__meta">
+                <span class="news-card__date">
+                    <?php echo esc_html(get_the_date(get_option('date_format'))); ?>
+                </span>
+            </div>
         </article>
-      <?php endwhile; ?>
+        <?php endwhile; ?>
     </div>
 
     <nav class="news-pagination" aria-label="<?php echo esc_attr__('Phân trang', 'pepsico-theme'); ?>">
-      <?php
+        <?php
       echo paginate_links([
         'total' => $GLOBALS['wp_query']->max_num_pages,
         'prev_text' => esc_html__('« Trước', 'pepsico-theme'),
@@ -118,9 +118,9 @@ if (function_exists('get_field')) {
       ?>
     </nav>
 
-  <?php else: ?>
+    <?php else: ?>
     <p><?php echo esc_html__('Chưa có bài viết.', 'pepsico-theme'); ?></p>
-  <?php endif; ?>
+    <?php endif; ?>
 </main>
 
 <?php get_footer(); ?>

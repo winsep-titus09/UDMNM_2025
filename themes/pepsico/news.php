@@ -13,8 +13,8 @@ $bg = function_exists('get_field') ? get_field('news_bg_url', get_the_ID()) : ''
 ?>
 <section class="page-hero" <?php if ($bg)
   echo 'style="background-image:url(' . esc_url($bg) . ')"'; ?>>
-  <span class="page-hero__overlay" aria-hidden="true"></span>
-  <h1 class="page-hero__title"><?php the_title(); ?></h1>
+    <span class="page-hero__overlay" aria-hidden="true"></span>
+    <h1 class="page-hero__title"><?php the_title(); ?></h1>
 </section>
 
 <?php
@@ -51,31 +51,33 @@ $btn_link_2 = spv_resolve_link($g['news_post_btn_2'] ?? '');
 
 if ($title_1 || $btn_link_1 || $title_2 || $btn_link_2):
   ?>
-  <div class="container mt-5 mb-5">
+<div class="container mt-5 mb-5">
     <div class="spv-newsheads">
 
-      <?php if ($title_1 || $btn_link_1): ?>
-        <section class="spv-newshead" aria-label="<?php echo esc_attr($title_1 ?: __('Mục tin 1', 'pepsico-theme')); ?>">
-          <h2 class="spv-newshead__title">
-            <span class="spv-newshead__logo" aria-hidden="true">
-              <img src="<?php echo esc_url($arrow_icon, $allowed_protocols); ?>" alt="" loading="lazy" decoding="async">
-            </span>
-            <span class="spv-newshead__text"><?php echo esc_html($title_1); ?></span>
-          </h2>
+        <?php if ($title_1 || $btn_link_1): ?>
+        <section class="spv-newshead"
+            aria-label="<?php echo esc_attr($title_1 ?: __('Mục tin 1', 'pepsico-theme')); ?>">
+            <h2 class="spv-newshead__title">
+                <span class="spv-newshead__logo" aria-hidden="true">
+                    <img src="<?php echo esc_url($arrow_icon, $allowed_protocols); ?>" alt="" loading="lazy"
+                        decoding="async">
+                </span>
+                <span class="spv-newshead__text"><?php echo esc_html($title_1); ?></span>
+            </h2>
 
-          <?php if ($btn_link_1): ?>
+            <?php if ($btn_link_1): ?>
             <a class="custom-btn" href="<?php echo esc_url($btn_link_1); ?>">
-              <span class="spv-newshead__btnText"><?php echo esc_html($btn_title_1); ?></span>
-              <span class="spv-newshead__btnIcon" aria-hidden="true">
-                <img src="<?php echo esc_url($arrow_icon, $allowed_protocols); ?>" alt="" loading="lazy" decoding="async"
-                  class="btn-icon">
-              </span>
+                <span class="spv-newshead__btnText"><?php echo esc_html($btn_title_1); ?></span>
+                <span class="spv-newshead__btnIcon" aria-hidden="true">
+                    <img src="<?php echo esc_url($arrow_icon, $allowed_protocols); ?>" alt="" loading="lazy"
+                        decoding="async" class="btn-icon">
+                </span>
             </a>
-          <?php endif; ?>
+            <?php endif; ?>
         </section>
-      <?php endif; ?>
+        <?php endif; ?>
 
-      <?php
+        <?php
       // ===== 5 bài mới nhất của CPT (1 lớn + 4 nhỏ) =====
       $cpt_key = 'tin_tuc_ve_cong_ty';
       $q = new WP_query([
@@ -93,68 +95,68 @@ if ($title_1 || $btn_link_1 || $title_2 || $btn_link_2):
         $first = $posts[0] ?? null;
         ?>
         <div class="spv-newsFeatured">
-          <?php if ($first): ?>
+            <?php if ($first): ?>
             <!-- Bài nổi bật bên trái -->
             <article class="spv-newsFeatured__main">
-              <a class="nf-main__thumb" href="<?php echo get_permalink($first); ?>" aria-label="<?=
+                <a class="nf-main__thumb" href="<?php echo get_permalink($first); ?>" aria-label="<?=
                    esc_attr(sprintf(__('Xem “%s”', 'pepsico-theme'), get_the_title($first)))
                    ?>">
-                <?php
+                    <?php
                 if (has_post_thumbnail($first)) {
                   echo get_the_post_thumbnail($first->ID, 'large', ['loading' => 'lazy', 'decoding' => 'async']);
                 } else {
                   echo '<span class="nf-main__placeholder" aria-hidden="true"></span>';
                 }
                 ?>
-              </a>
-              <h3 class="nf-main__title">
-                <a href="<?php echo get_permalink($first); ?>"><?php echo esc_html(get_the_title($first)); ?></a>
-              </h3>
-              <div class="nf-main__meta">
-                <time datetime="<?php echo esc_attr(get_the_date('c', $first)); ?>">
-                  <?php echo esc_html(get_the_date(get_option('date_format'), $first)); ?>
-                </time>
-              </div>
-              <?php
+                </a>
+                <h3 class="nf-main__title">
+                    <a href="<?php echo get_permalink($first); ?>"><?php echo esc_html(get_the_title($first)); ?></a>
+                </h3>
+                <div class="nf-main__meta">
+                    <time datetime="<?php echo esc_attr(get_the_date('c', $first)); ?>">
+                        <?php echo esc_html(get_the_date(get_option('date_format'), $first)); ?>
+                    </time>
+                </div>
+                <?php
               $raw_content = get_post_field('post_content', $first);
               $ex = wp_trim_words(get_the_excerpt($first) ?: wp_strip_all_tags($raw_content), 28);
               if ($ex): ?>
                 <p class="nf-main__excerpt"><?php echo esc_html($ex); ?></p>
-              <?php endif; ?>
+                <?php endif; ?>
             </article>
-          <?php endif; ?>
+            <?php endif; ?>
 
-          <!-- 4 bài bên phải -->
-          <div class="spv-newsFeatured__side">
-            <?php
+            <!-- 4 bài bên phải -->
+            <div class="spv-newsFeatured__side">
+                <?php
             if (!empty($posts)) {
               for ($i = 1; $i < min(5, count($posts)); $i++):
                 $p = $posts[$i];
                 ?>
                 <article class="nf-side__card">
-                  <a class="nf-side__thumb" href="<?php echo get_permalink($p); ?>" aria-label="<?=
+                    <a class="nf-side__thumb" href="<?php echo get_permalink($p); ?>" aria-label="<?=
                        esc_attr(sprintf(__('Xem “%s”', 'pepsico-theme'), get_the_title($p)))
                        ?>">
-                    <?php
+                        <?php
                     if (has_post_thumbnail($p)) {
                       echo get_the_post_thumbnail($p->ID, 'medium_large', ['loading' => 'lazy', 'decoding' => 'async']);
                     } else {
                       echo '<span class="nf-side__placeholder" aria-hidden="true"></span>';
                     }
                     ?>
-                  </a>
-                  <h4 class="nf-side__title">
-                    <a href="<?php echo get_permalink($p); ?>"><?php echo esc_html(get_the_title($p)); ?></a>
-                  </h4>
-                  <div class="nf-side__meta">
-                    <span class="news-card__date">
-                      <?php echo esc_html(get_the_date(get_option('date_format'), $p)); ?>
-                    </span>
-                  </div>
+                    </a>
+                    <h4 class="nf-side__title">
+                        <a href="<?php echo get_permalink($p); ?>"><?php echo esc_html(get_the_title($p)); ?></a>
+                    </h4>
+                    <div class="nf-side__meta">
+                        <span class="news-card__date">
+                            <?php echo esc_html(get_the_date(get_option('date_format'), $p)); ?>
+                        </span>
+                    </div>
                 </article>
-              <?php endfor;
+                <?php endfor;
             } ?>
-          </div>
+            </div>
         </div>
         <?php
         wp_reset_postdata();
@@ -163,28 +165,30 @@ if ($title_1 || $btn_link_1 || $title_2 || $btn_link_2):
       endif;
       ?>
 
-      <?php if ($title_2 || $btn_link_2): ?>
-        <section class="spv-newshead" aria-label="<?php echo esc_attr($title_2 ?: __('Mục tin 2', 'pepsico-theme')); ?>">
-          <h2 class="spv-newshead__title">
-            <span class="spv-newshead__logo" aria-hidden="true">
-              <img src="<?php echo esc_url($arrow_icon, $allowed_protocols); ?>" alt="" loading="lazy" decoding="async">
-            </span>
-            <span class="spv-newshead__text"><?php echo esc_html($title_2); ?></span>
-          </h2>
+        <?php if ($title_2 || $btn_link_2): ?>
+        <section class="spv-newshead"
+            aria-label="<?php echo esc_attr($title_2 ?: __('Mục tin 2', 'pepsico-theme')); ?>">
+            <h2 class="spv-newshead__title">
+                <span class="spv-newshead__logo" aria-hidden="true">
+                    <img src="<?php echo esc_url($arrow_icon, $allowed_protocols); ?>" alt="" loading="lazy"
+                        decoding="async">
+                </span>
+                <span class="spv-newshead__text"><?php echo esc_html($title_2); ?></span>
+            </h2>
 
-          <?php if ($btn_link_2): ?>
+            <?php if ($btn_link_2): ?>
             <a class="custom-btn" href="<?php echo esc_url($btn_link_2); ?>">
-              <span class="spv-newshead__btnText"><?php echo esc_html($btn_title_2); ?></span>
-              <span class="spv-newshead__btnIcon" aria-hidden="true">
-                <img src="<?php echo esc_url($arrow_icon, $allowed_protocols); ?>" alt="" loading="lazy" decoding="async"
-                  class="btn-icon">
-              </span>
+                <span class="spv-newshead__btnText"><?php echo esc_html($btn_title_2); ?></span>
+                <span class="spv-newshead__btnIcon" aria-hidden="true">
+                    <img src="<?php echo esc_url($arrow_icon, $allowed_protocols); ?>" alt="" loading="lazy"
+                        decoding="async" class="btn-icon">
+                </span>
             </a>
-          <?php endif; ?>
+            <?php endif; ?>
         </section>
-      <?php endif; ?>
+        <?php endif; ?>
 
-      <?php
+        <?php
       // ===== 3 bài mới nhất: CPT thong_cao_bao_chi =====
       $cpt_key2 = 'thong_cao_bao_chi';
       $q2 = new WP_Query([
@@ -199,32 +203,32 @@ if ($title_1 || $btn_link_1 || $title_2 || $btn_link_2):
 
       if ($q2->have_posts()): ?>
         <div class="news3">
-          <?php while ($q2->have_posts()):
+            <?php while ($q2->have_posts()):
             $q2->the_post(); ?>
             <article <?php post_class('news3__item'); ?>>
-              <div class="news3__content">
-                <h3 class="news3__title">
-                  <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                </h3>
-                <div class="news3__desc">
-                  <?php echo esc_html(get_the_excerpt()); ?>
+                <div class="news3__content">
+                    <h3 class="news3__title">
+                        <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                    </h3>
+                    <div class="news3__desc">
+                        <?php echo esc_html(get_the_excerpt()); ?>
+                    </div>
                 </div>
-              </div>
-              <div class="news3__meta">
-                <span class="news-card__date">
-                  <?php echo esc_html(get_the_date(get_option('date_format'))); ?>
-                </span>
-              </div>
+                <div class="news3__meta">
+                    <span class="news-card__date">
+                        <?php echo esc_html(get_the_date(get_option('date_format'))); ?>
+                    </span>
+                </div>
             </article>
-          <?php endwhile;
+            <?php endwhile;
           wp_reset_postdata(); ?>
         </div>
-      <?php else: ?>
+        <?php else: ?>
         <p class="spv-newslist__empty"><?php echo esc_html__('Chưa có bài viết.', 'pepsico-theme'); ?></p>
-      <?php endif; ?>
+        <?php endif; ?>
 
     </div>
-  </div>
+</div>
 <?php endif; ?>
 
 <?php get_footer(); ?>
